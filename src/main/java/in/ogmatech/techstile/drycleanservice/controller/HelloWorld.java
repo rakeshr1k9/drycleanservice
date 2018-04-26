@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,18 +10,20 @@ import java.security.Principal;
 @RestController
 public class HelloWorld {
 
+    @PreAuthorize("hasRole('Director')")
     @GetMapping("/api/test")
     public String home(){
         return "Hello Raki";
     }
 
-    @GetMapping("/api/hello")
+    @GetMapping("/api/director")
     public String helloUser(){
         //The authenticated user can be fetched using the SecurityContextHolder
         String username = new SecurityContextHolder().getContext().getAuthentication().getName();
         return String.format("Hello '%s'!", username);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/admin")
     // If controller request asks for the Principal user in
     // the method declararion Spring security will provide it.

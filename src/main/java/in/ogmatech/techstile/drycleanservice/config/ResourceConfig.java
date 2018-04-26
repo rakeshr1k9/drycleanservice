@@ -23,7 +23,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 // when restricting access to 'Roles' you must remove "ROLE_" part role
                 // for "ROLE_USER" use only "USER"
-                .antMatchers("/api/hello").access("hasAnyRole('USER')")
+                .antMatchers("/api/director").access("hasAnyRole('DIRECTOR')")
                 .antMatchers("/api/admin").hasRole("ADMIN")
                 // restricting all access to /api/** to authenticated users
                 .antMatchers("/api/**").authenticated();
