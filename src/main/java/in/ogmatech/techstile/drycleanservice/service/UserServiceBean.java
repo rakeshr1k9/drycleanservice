@@ -20,8 +20,8 @@ public class UserServiceBean implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+   /* @PersistenceContext
+    private EntityManager entityManager;*/
 
     @Override
     public boolean isExist(User user) {
@@ -46,6 +46,7 @@ public class UserServiceBean implements UserService {
         return userRepository.findOne(idUser);
     }
 
+
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
@@ -53,7 +54,7 @@ public class UserServiceBean implements UserService {
 
     @Override
     public User update(User user) {
-        /*if (!entityManager.contains(user))
+       /* if (!entityManager.contains(user))
             user = entityManager.merge(user);*/
         return userRepository.save(user);
     }

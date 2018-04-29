@@ -20,9 +20,6 @@ public class BranchServiceBean implements BranchService {
     @Autowired
     BranchRepository branchRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override
     public boolean isExist(Branch branch) {
         return findById(branch.getIdBranch())!=null;

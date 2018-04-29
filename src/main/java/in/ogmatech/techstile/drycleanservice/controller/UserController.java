@@ -86,8 +86,8 @@ public class UserController {
         currentUser.setPassword(user.getPassword());
         currentUser.setUserMobile(user.getUserMobile());
         currentUser.setIsDeleted(user.getIsDeleted());
-        currentUser.setBranch(user.getBranch());
-        currentUser.setUserDeviceId(user.getUserDeviceId());
+        currentUser.setBranchId(user.getBranchId());
+        currentUser.setUserDeviceIdentity(user.getUserDeviceIdentity());
 
        /* //if request body doesn't supplied id this will going to help
         user.setIdUser(idUser);

@@ -1,37 +1,35 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "branch")
 @EntityListeners(AuditingEntityListener.class)
-public class Branch {
+public class Branch extends ResourceSupport {
 
-    private long idBranch;
+    private Long idBranch;
     private String branchCode;
     private String branchName;
     private String branchPlace;
-    private byte isDeleted;
+    private Byte isDeleted;
     private Date branchCat;
     private Date branchUat;
-    private List<User> users;
 
     @Id
     @GeneratedValue
     @Column(name = "id_branch", nullable = false)
-    public long getIdBranch() {
+    public Long getIdBranch() {
         return idBranch;
     }
 
-    public void setIdBranch(long idBranch) {
+    public void setIdBranch(Long idBranch) {
         this.idBranch = idBranch;
     }
 
@@ -63,11 +61,11 @@ public class Branch {
     }
 
     @Column(name = "is_deleted", nullable = false)
-    public byte getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(byte isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -95,13 +93,4 @@ public class Branch {
         this.branchUat = branchUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "branch")
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

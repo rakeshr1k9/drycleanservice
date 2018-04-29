@@ -1,13 +1,13 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.LazyCollection;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -15,24 +15,25 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class User extends ResourceSupport{
 
-    private long idUser;
+    private Long idUser;
     private String username;
     private String password;
-    private BigDecimal userMobile;
-    private byte isDeleted;
+    private Long userMobile;
+    private Byte isDeleted;
     private Date userCat;
     private Date userUat;
-    private String userDeviceId;
-    private Branch branch;
+    private String userDeviceIdentity;
+
+    private Long branchId;
 
     @Id
     @GeneratedValue
     @Column(name = "id_user", nullable = false)
-    public long getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(long idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
     
@@ -55,20 +56,20 @@ public class User extends ResourceSupport{
     }
 
     @Column(name = "user_mobile", nullable = true, precision = 0)
-    public BigDecimal getUserMobile() {
+    public Long getUserMobile() {
         return userMobile;
     }
 
-    public void setUserMobile(BigDecimal userMobile) {
+    public void setUserMobile(Long userMobile) {
         this.userMobile = userMobile;
     }
 
     @Column(name = "is_deleted", nullable = false)
-    public byte getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(byte isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -96,23 +97,21 @@ public class User extends ResourceSupport{
         this.userUat = userUat;
     }
 
-    @Column(name = "user_device_id", nullable = true, length = 45)
-    public String getUserDeviceId() {
-        return userDeviceId;
+    @Column(name = "user_device_identity", nullable = true, length = 45)
+    public String getUserDeviceIdentity() {
+        return userDeviceIdentity;
     }
 
-    public void setUserDeviceId(String userDeviceId) {
-        this.userDeviceId = userDeviceId;
+    public void setUserDeviceIdentity(String userDeviceIdentity) {
+        this.userDeviceIdentity = userDeviceIdentity;
     }
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "branch_id")
-    public Branch getBranch() {
-        return branch;
+    @Column(name = "branch_id", nullable = false)
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 }
