@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name = "service")
 @EntityListeners(AuditingEntityListener.class)
-public class Service {
+public class ServiceN {
 
     private Long idService;
     private Integer serviceOrder;

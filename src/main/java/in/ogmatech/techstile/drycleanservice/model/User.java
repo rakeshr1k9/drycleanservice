@@ -114,4 +114,5 @@ public class User extends ResourceSupport{
     public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
+
 }

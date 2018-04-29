@@ -22,7 +22,7 @@ public class BranchController {
 
     /* Create a branch */
     @PostMapping("branches")
-    public ResponseEntity<Branch> createBook(@RequestBody Branch branch, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Branch> createBranch(@RequestBody Branch branch, UriComponentsBuilder ucBuilder) {
 
         if (branchService.isExist(branch)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -84,7 +84,7 @@ public class BranchController {
 
     /*Delete a branch */
     @DeleteMapping("branches/{id}")
-    public ResponseEntity<Branch> deleteBookFromDB(@PathVariable("id") long idBranch) {
+    public ResponseEntity<Branch> deleteBranchFromDB(@PathVariable("id") long idBranch) {
 
         Branch branch = branchService.findById(idBranch);
 

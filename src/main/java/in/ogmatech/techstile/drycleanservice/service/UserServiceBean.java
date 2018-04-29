@@ -30,14 +30,6 @@ public class UserServiceBean implements UserService {
 
     @Override
     public User save(User user) {
-
-        User existing = userRepository.findOne(user.getIdUser());
-
-        if (existing != null) {
-            throw new AlreadyExistsException(
-                    String.format("There already exists a user with id = %s", user.getIdUser()));
-        }
-
         return userRepository.save(user);
     }
 
@@ -46,17 +38,25 @@ public class UserServiceBean implements UserService {
         return userRepository.findOne(idUser);
     }
 
-
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User update(User user) {
+    public User update(Long idUser, User user) {
+
+        User currentUser = userRepository.findOne(idUser);
+
+        currentUser.setUsername(user.getUsername());
+        currentUser.setPassword(user.getPassword());
+        currentUser.setUserMobile(user.getUserMobile());
+        currentUser.setIsDeleted(user.getIsDeleted());
+        currentUser.setBranchId(user.getBranchId());
+        currentUser.setUserDeviceIdentity(user.getUserDeviceIdentity());
        /* if (!entityManager.contains(user))
             user = entityManager.merge(user);*/
-        return userRepository.save(user);
+        return userRepository.save(currentUser);
     }
 
     @Override

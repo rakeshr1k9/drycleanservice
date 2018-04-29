@@ -27,7 +27,7 @@ public class UserController {
 
     /* Create a user */
     @PostMapping("users")
-    public ResponseEntity<User> createBook(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 
         if (userService.isExist(user)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -74,7 +74,7 @@ public class UserController {
 
     /*Update a user*/
     @PutMapping("users/{id}")
-    public ResponseEntity<User> updateUserFromDB(@PathVariable("id") long idUser, @RequestBody User user) {
+    public ResponseEntity<User> updateUserFromDB(@PathVariable("id") Long idUser, @RequestBody User user) {
 
         User currentUser = userService.findById(idUser);
 
@@ -82,12 +82,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        currentUser.setUsername(user.getUsername());
-        currentUser.setPassword(user.getPassword());
-        currentUser.setUserMobile(user.getUserMobile());
-        currentUser.setIsDeleted(user.getIsDeleted());
-        currentUser.setBranchId(user.getBranchId());
-        currentUser.setUserDeviceIdentity(user.getUserDeviceIdentity());
 
        /* //if request body doesn't supplied id this will going to help
         user.setIdUser(idUser);
@@ -95,14 +89,16 @@ public class UserController {
         //it will compare request body with entity model to manage null values
         copyNonNullProperties(user, currentUser);*/
 
-        userService.update(currentUser);
+        userService.update(idUser, user);
 
-        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+        User updatedUser = userService.findById(idUser);
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     /*Delete a user */
     @DeleteMapping("users/{id}")
-    public ResponseEntity<User> deleteBookFromDB(@PathVariable("id") long idUser) {
+    public ResponseEntity<User> deleteUserFromDB(@PathVariable("id") long idUser) {
 
         User user = userService.findById(idUser);
 
