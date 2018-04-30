@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +9,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -21,7 +23,10 @@ public class Customer extends ResourceSupport {
     private Byte isDeleted;
     private Date customerCat;
     private Date customerUat;
-    private Long customerTypeId;
+
+    private CustomerType customerType;
+
+    private List<Order> orders;
 
     @Id
     @GeneratedValue
@@ -85,12 +90,23 @@ public class Customer extends ResourceSupport {
         this.customerUat = customerUat;
     }
 
-    @Column(name = "customer_type_id", nullable = false)
-    public Long getCustomerTypeId() {
-        return customerTypeId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_type_id", referencedColumnName = "id_customer_type")
+    public CustomerType getCustomerType() {
+        return customerType;
     }
 
-    public void setCustomerTypeId(Long customerTypeId) {
-        this.customerTypeId = customerTypeId;
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

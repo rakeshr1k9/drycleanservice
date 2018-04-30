@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +10,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -24,7 +26,11 @@ public class User extends ResourceSupport{
     private Date userUat;
     private String userDeviceIdentity;
 
-    private Long branchId;
+    private Branch branch;
+
+    private List<UserRole> userRoles;
+    private List<WorkerService> workerServices;
+    private ItemServiceScan itemServiceScan;
 
     @Id
     @GeneratedValue
@@ -106,13 +112,43 @@ public class User extends ResourceSupport{
         this.userDeviceIdentity = userDeviceIdentity;
     }
 
-    @Column(name = "branch_id", nullable = false)
-    public Long getBranchId() {
-        return branchId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch")
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    public List<WorkerService> getWorkerServices() {
+        return workerServices;
+    }
+
+    public void setWorkerServices(List<WorkerService> workerServices) {
+        this.workerServices = workerServices;
+    }
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    public ItemServiceScan getItemServiceScan() {
+        return itemServiceScan;
+    }
+
+    public void setItemServiceScan(ItemServiceScan itemServiceScan) {
+        this.itemServiceScan = itemServiceScan;
+    }
 }

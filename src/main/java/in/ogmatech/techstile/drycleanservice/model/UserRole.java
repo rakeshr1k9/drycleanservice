@@ -18,8 +18,9 @@ public class UserRole {
     private Byte isDeleted;
     private Date userRoleCat;
     private Date userRoleUat;
-    private Long userId;
-    private Long roleId;
+
+    private User user;
+    private Role role;
 
     @Id
     @GeneratedValue
@@ -65,21 +66,23 @@ public class UserRole {
         this.userRoleUat = userRoleUat;
     }
 
-    @Column(name = "user_id", nullable = false)
-    public Long getUserId() {
-        return userId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    @Column(name = "role_id", nullable = false)
-    public Long getRoleId() {
-        return roleId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName = "id_role")
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

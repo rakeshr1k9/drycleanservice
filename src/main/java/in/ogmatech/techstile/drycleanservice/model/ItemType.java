@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "item_type")
@@ -20,7 +22,11 @@ public class ItemType {
     private Byte isDeleted;
     private Date itemTypeCat;
     private Date itemTypeUat;
-    private Long itemCategoryId;
+
+    private ItemCategory itemCategory;
+
+    private List<Item> items;
+    private List<ItemTypeServicePrice> itemTypeServicePrices;
 
     @Id
     @GeneratedValue
@@ -84,12 +90,33 @@ public class ItemType {
         this.itemTypeUat = itemTypeUat;
     }
 
-    @Column(name = "item_category_id", nullable = false)
-    public Long getItemCategoryId() {
-        return itemCategoryId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_category_id", referencedColumnName = "id_item_category")
+    public ItemCategory getItemCategory() {
+        return itemCategory;
     }
 
-    public void setItemCategoryId(Long itemCategoryId) {
-        this.itemCategoryId = itemCategoryId;
+    public void setItemCategory(ItemCategory itemCategory) {
+        this.itemCategory = itemCategory;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemType")
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemType")
+    public List<ItemTypeServicePrice> getItemTypeServicePrices() {
+        return itemTypeServicePrices;
+    }
+
+    public void setItemTypeServicePrices(List<ItemTypeServicePrice> itemTypeServicePrices) {
+        this.itemTypeServicePrices = itemTypeServicePrices;
     }
 }

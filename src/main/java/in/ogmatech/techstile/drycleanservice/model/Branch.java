@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +9,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "branch")
@@ -21,6 +23,9 @@ public class Branch extends ResourceSupport {
     private Byte isDeleted;
     private Date branchCat;
     private Date branchUat;
+
+    private List<User> users;
+    private List<Order> orders;
 
     @Id
     @GeneratedValue
@@ -93,4 +98,23 @@ public class Branch extends ResourceSupport {
         this.branchUat = branchUat;
     }
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "branch")
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "branch")
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

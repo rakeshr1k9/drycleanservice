@@ -20,6 +20,8 @@ public class CustomerType {
     private Byte isDeleted;
     private Date customerTypeCat;
     private Date customerTypeUat;
+
+    private List<Customer> customers;
     
     @Id
     @GeneratedValue
@@ -73,5 +75,14 @@ public class CustomerType {
     public void setCustomerTypeUat(Date customerTypeUat) {
         this.customerTypeUat = customerTypeUat;
     }
-    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customerType")
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
 }

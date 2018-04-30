@@ -18,8 +18,8 @@ public class ItemRemark {
     private Date itemRemarkCat;
     private Date itemRemarkUat;
 
-    private Long itemId;
-    private Long remarkId;
+    private Item item;
+    private Remark remark;
 
     @Id
     @GeneratedValue
@@ -65,21 +65,23 @@ public class ItemRemark {
         this.itemRemarkUat = itemRemarkUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    @Column(name = "remark_id", nullable = false)
-    public Long getRemarkId() {
-        return remarkId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "remark_id", referencedColumnName = "id_remark")
+    public Remark getRemark() {
+        return remark;
     }
 
-    public void setRemarkId(Long remarkId) {
-        this.remarkId = remarkId;
+    public void setRemark(Remark remark) {
+        this.remark = remark;
     }
 }

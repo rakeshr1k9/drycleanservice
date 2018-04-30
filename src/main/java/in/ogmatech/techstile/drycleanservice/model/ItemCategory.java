@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "item_category")
@@ -18,6 +20,8 @@ public class ItemCategory {
     private Byte isDeleted;
     private Date itemCategoryCat;
     private Date itemCategoryUat;
+
+    private List<ItemType> itemTypes;
 
     @Id
     @GeneratedValue
@@ -70,5 +74,15 @@ public class ItemCategory {
 
     public void setItemCategoryUat(Date itemCategoryUat) {
         this.itemCategoryUat = itemCategoryUat;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemCategory")
+    public List<ItemType> getItemTypes() {
+        return itemTypes;
+    }
+
+    public void setItemTypes(List<ItemType> itemTypes) {
+        this.itemTypes = itemTypes;
     }
 }

@@ -21,6 +21,8 @@ public class Remark {
     private Date remarkCat;
     private Date remarkUat;
 
+    private List<ItemRemark> itemRemarks;
+
     @Id
     @GeneratedValue
     @Column(name = "id_remark", nullable = false)
@@ -73,5 +75,14 @@ public class Remark {
     public void setRemarkUat(Date remarkUat) {
         this.remarkUat = remarkUat;
     }
-    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "remark")
+    public List<ItemRemark> getItemRemarks() {
+        return itemRemarks;
+    }
+
+    public void setItemRemarks(List<ItemRemark> itemRemarks) {
+        this.itemRemarks = itemRemarks;
+    }
 }

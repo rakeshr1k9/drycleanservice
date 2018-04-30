@@ -21,6 +21,8 @@ public class PaymentType {
     private Date paymentTypeCat;
     private Date paymentTypeUat;
 
+    private List<Payment> payments;
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id_payment_type", nullable = false)
@@ -73,5 +75,14 @@ public class PaymentType {
     public void setPaymentTypeUat(Date paymentTypeUat) {
         this.paymentTypeUat = paymentTypeUat;
     }
-    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paymentType")
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
 }

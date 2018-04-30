@@ -2,6 +2,7 @@ package in.ogmatech.techstile.drycleanservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,6 +21,8 @@ public class OrderType {
     private Byte isDeleted;
     private Date orderTypeCat;
     private Date orderTypeUat;
+
+    private List<Order> orders;
     
     @Id
     @GeneratedValue
@@ -73,5 +76,14 @@ public class OrderType {
     public void setOrderTypeUat(Date orderTypeUat) {
         this.orderTypeUat = orderTypeUat;
     }
-    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderType")
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

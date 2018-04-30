@@ -18,8 +18,8 @@ public class ServiceTypeSplit {
     private Date serviceTypeSplitCat;
     private Date serviceTypeSplitUat;
 
-    private Long serviceTypeId;
-    private Long serviceId;
+    private ServiceType serviceType;
+    private ServiceIndividual serviceIndividual;
 
     @Id
     @GeneratedValue
@@ -65,21 +65,23 @@ public class ServiceTypeSplit {
         this.serviceTypeSplitUat = serviceTypeSplitUat;
     }
 
-    @Column(name = "service_type_id", nullable = false)
-    public Long getServiceTypeId() {
-        return serviceTypeId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_type_id", referencedColumnName = "id_service_type")
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 
-    public void setServiceTypeId(Long serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
-    @Column(name = "service_id", nullable = false)
-    public Long getServiceId() {
-        return serviceId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
+    public ServiceIndividual getServiceIndividual() {
+        return serviceIndividual;
     }
 
-    public void setServiceId(Long serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
+        this.serviceIndividual = serviceIndividual;
     }
 }

@@ -22,6 +22,8 @@ public class OrderStatus {
     private Date orderStatusUat;
     private Integer orderStatusOrder;
 
+    private List<Order> orders;
+
     @Id
     @GeneratedValue
     @Column(name = "id_order_status", nullable = false)
@@ -82,5 +84,15 @@ public class OrderStatus {
 
     public void setOrderStatusOrder(Integer orderStatusOrder) {
         this.orderStatusOrder = orderStatusOrder;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderStatus")
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

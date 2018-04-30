@@ -52,7 +52,7 @@ public class UserServiceBean implements UserService {
         currentUser.setPassword(user.getPassword());
         currentUser.setUserMobile(user.getUserMobile());
         currentUser.setIsDeleted(user.getIsDeleted());
-        currentUser.setBranchId(user.getBranchId());
+//        currentUser.setBranchId(user.getBranchId());
         currentUser.setUserDeviceIdentity(user.getUserDeviceIdentity());
        /* if (!entityManager.contains(user))
             user = entityManager.merge(user);*/

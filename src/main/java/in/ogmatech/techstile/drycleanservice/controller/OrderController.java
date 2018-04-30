@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     /*Reads all orders*/
-    @GetMapping(value = "orders",produces = MediaTypes.HAL_JSON_VALUE)
+    @GetMapping(value = "orders", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<List<Order>> listAllOrders() {
 
         List<Order> order = orderService.findAll();

@@ -18,8 +18,8 @@ public class ItemServiceType {
     private Date itemServiceTypeCat;
     private Date itemServiceTypeUat;
 
-    private Long itemId;
-    private Long serviceTypeId;
+    private Item item;
+    private ServiceType serviceType;
 
     @Id
     @GeneratedValue
@@ -65,21 +65,23 @@ public class ItemServiceType {
         this.itemServiceTypeUat = itemServiceTypeUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    @Column(name = "service_type_id", nullable = false)
-    public Long getServiceTypeId() {
-        return serviceTypeId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_type_id", referencedColumnName = "id_service_type")
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 
-    public void setServiceTypeId(Long serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 }

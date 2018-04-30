@@ -18,7 +18,11 @@ public class ItemServiceScan {
     private Byte isDeleted;
     private Date itemServiceScanCat;
     private Date itemServiceScanUat;
-    private Long itemId;
+
+    private Item item;
+    private ServiceIndividual serviceIndividual;
+
+    private User user;
 
     @Id
     @GeneratedValue
@@ -73,12 +77,33 @@ public class ItemServiceScan {
         this.itemServiceScanUat = itemServiceScanUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
+    public ServiceIndividual getServiceIndividual() {
+        return serviceIndividual;
+    }
+
+    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
+        this.serviceIndividual = serviceIndividual;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

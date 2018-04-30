@@ -17,8 +17,9 @@ public class ItemDyeingColor {
     private Byte isDeleted;
     private Date itemDyeingColorCat;
     private Date itemDyeingColorUat;
-    private Long itemId;
-    private Long dyeingColorId;
+
+    private Item item;
+    private DyeingColor dyeingColor;
 
     @Id
     @GeneratedValue
@@ -64,21 +65,23 @@ public class ItemDyeingColor {
         this.itemDyeingColorUat = itemDyeingColorUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    @Column(name = "dyeing_color_id", nullable = false)
-    public Long getDyeingColorId() {
-        return dyeingColorId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "dyeing_color_id", referencedColumnName = "id_dyeing_color")
+    public DyeingColor getDyeingColor() {
+        return dyeingColor;
     }
 
-    public void setDyeingColorId(Long dyeingColorId) {
-        this.dyeingColorId = dyeingColorId;
+    public void setDyeingColor(DyeingColor dyeingColor) {
+        this.dyeingColor = dyeingColor;
     }
 }

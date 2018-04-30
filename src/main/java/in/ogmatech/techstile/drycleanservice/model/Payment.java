@@ -19,8 +19,8 @@ public class Payment {
     private Date paymentCat;
     private Date paymentUat;
 
-    private Long orderId;
-    private Long paymentTypeId;
+    private Order order;
+    private PaymentType paymentType;
 
     @Id
     @GeneratedValue
@@ -75,21 +75,23 @@ public class Payment {
         this.paymentUat = paymentUat;
     }
 
-    @Column(name = "order_id", nullable = false)
-    public Long getOrderId() {
-        return orderId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", referencedColumnName = "id_order")
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    @Column(name = "payment_type_id", nullable = false)
-    public Long getPaymentTypeId() {
-        return paymentTypeId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_type_id", referencedColumnName = "id_payment_type")
+    public PaymentType getPaymentType() {
+        return paymentType;
     }
 
-    public void setPaymentTypeId(Long paymentTypeId) {
-        this.paymentTypeId = paymentTypeId;
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 }

@@ -1,5 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "dyeing_color")
@@ -20,6 +22,7 @@ public class DyeingColor {
     private Date dyeingColorCat;
     private Date dyeingColorUat;
 
+    private List<ItemDyeingColor> itemDyeingColors;
     @Id
     @GeneratedValue
     @Column(name = "id_dyeing_color", nullable = false)
@@ -80,5 +83,15 @@ public class DyeingColor {
 
     public void setDyeingColorUat(Date dyeingColorUat) {
         this.dyeingColorUat = dyeingColorUat;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dyeingColor")
+    public List<ItemDyeingColor> getItemDyeingColors() {
+        return itemDyeingColors;
+    }
+
+    public void setItemDyeingColors(List<ItemDyeingColor> itemDyeingColors) {
+        this.itemDyeingColors = itemDyeingColors;
     }
 }

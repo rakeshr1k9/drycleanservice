@@ -6,7 +6,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -18,8 +17,9 @@ public class WorkerService {
     private Byte isDeleted;
     private Date workerServiceCat;
     private Date userServiceUat;
-    private Long userId;
-    private Long serviceId;
+
+    private User user;
+    private ServiceIndividual serviceIndividual;
 
     @Id
     @GeneratedValue
@@ -64,21 +64,24 @@ public class WorkerService {
     public void setUserServiceUat(Date userServiceUat) {
         this.userServiceUat = userServiceUat;
     }
-    @Column(name = "user_id", nullable = false)
-    public Long getUserId() {
-        return userId;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    @Column(name = "service_id", nullable = false)
-    public Long getServiceId() {
-        return serviceId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
+    public ServiceIndividual getServiceIndividual() {
+        return serviceIndividual;
     }
 
-    public void setServiceId(Long serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
+        this.serviceIndividual = serviceIndividual;
     }
 }

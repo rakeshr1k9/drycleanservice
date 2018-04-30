@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 @EntityListeners(AuditingEntityListener.class)
 public class Order extends ResourceSupport {
 
@@ -27,10 +27,14 @@ public class Order extends ResourceSupport {
     private Date orderCat;
     private Date orderUat;
 
-    private Long customerId;
-    private Long branchId;
-    private Long orderStatusId;
-    private Long orderTypeId;
+    private Customer customer;
+    private Branch branch;
+    private OrderStatus orderStatus;
+    private OrderType orderType;
+
+    private List<Payment> payments;
+    private List<Item> items;
+    private TempOrder tempOrder;
 
     @Id
     @GeneratedValue
@@ -89,11 +93,11 @@ public class Order extends ResourceSupport {
     }
 
     @Column(name = "is_quick_delivery", nullable = false)
-    public Byte getisQuickDeivery() {
+    public Byte getIsQuickDeivery() {
         return isQuickDeivery;
     }
 
-    public void setisQuickDeivery(Byte isQuickDeivery) {
+    public void setIsQuickDeivery(Byte isQuickDeivery) {
         this.isQuickDeivery = isQuickDeivery;
     }
 
@@ -130,39 +134,73 @@ public class Order extends ResourceSupport {
         this.orderUat = orderUat;
     }
 
-    @Column(name = "customer_id", nullable = false)
-    public Long getCustomerId() {
-        return customerId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id_customer")
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    @Column(name = "branch_id", nullable = false)
-    public Long getBranchId() {
-        return branchId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch")
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
-    @Column(name = "order_status_id", nullable = false)
-    public Long getOrderStatusId() {
-        return orderStatusId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_status_id", referencedColumnName = "id_order_status")
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setOrderStatusId(Long orderStatusId) {
-        this.orderStatusId = orderStatusId;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    @Column(name = "order_type_id", nullable = false)
-    public Long getOrderTypeId() {
-        return orderTypeId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_type_id", referencedColumnName = "id_order_type")
+    public OrderType getOrderType() {
+        return orderType;
     }
 
-    public void setOrderTypeId(Long orderTypeId) {
-        this.orderTypeId = orderTypeId;
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+    public TempOrder getTempOrder() {
+        return tempOrder;
+    }
+
+    public void setTempOrder(TempOrder tempOrder) {
+        this.tempOrder = tempOrder;
     }
 }

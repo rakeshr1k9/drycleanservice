@@ -21,7 +21,7 @@ public class TempOrder {
     private Date tempOrderCat;
     private Date tempOrderUat;
 
-    private Long orderId;
+    private Order order;
 
     @Id
     @GeneratedValue
@@ -85,12 +85,13 @@ public class TempOrder {
         this.tempOrderUat = tempOrderUat;
     }
 
-    @Column(name = "order_id", nullable = false)
-    public Long getOrderId() {
-        return orderId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", referencedColumnName = "id_order")
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

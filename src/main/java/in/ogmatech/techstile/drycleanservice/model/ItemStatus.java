@@ -21,6 +21,8 @@ public class ItemStatus {
     private Date itemStatusCat;
     private Date itemStatusUat;
 
+    private List<Item> items;
+
     @Id
     @GeneratedValue
     @Column(name = "id_item_status", nullable = false)
@@ -74,4 +76,13 @@ public class ItemStatus {
         this.itemStatusUat = itemStatusUat;
     }
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemStatus")
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 }

@@ -22,6 +22,10 @@ public class ServiceType {
     private Date serviceTypeCat;
     private Date serviceTypeUat;
 
+    private List<ItemServiceType> itemServiceTypes;
+    private List<ItemTypeServicePrice> itemTypeServicePrices;
+    private List<ServiceTypeSplit> serviceTypeSplits;
+
     @Id
     @GeneratedValue
     @Column(name = "id_service_type", nullable = false)
@@ -83,5 +87,34 @@ public class ServiceType {
     public void setServiceTypeUat(Date serviceTypeUat) {
         this.serviceTypeUat = serviceTypeUat;
     }
-    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
+    public List<ItemServiceType> getItemServiceTypes() {
+        return itemServiceTypes;
+    }
+
+    public void setItemServiceTypes(List<ItemServiceType> itemServiceTypes) {
+        this.itemServiceTypes = itemServiceTypes;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
+    public List<ItemTypeServicePrice> getItemTypeServicePrices() {
+        return itemTypeServicePrices;
+    }
+
+    public void setItemTypeServicePrices(List<ItemTypeServicePrice> itemTypeServicePrices) {
+        this.itemTypeServicePrices = itemTypeServicePrices;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
+    public List<ServiceTypeSplit> getServiceTypeSplits() {
+        return serviceTypeSplits;
+    }
+
+    public void setServiceTypeSplits(List<ServiceTypeSplit> serviceTypeSplits) {
+        this.serviceTypeSplits = serviceTypeSplits;
+    }
 }

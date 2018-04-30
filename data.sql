@@ -171,6 +171,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'1000000',25,NULL,NULL,NULL,0,NULL,NULL,1,1,2);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +274,7 @@ DROP TABLE IF EXISTS `item_service_scan`;
 CREATE TABLE `item_service_scan` (
   `id_item_service_scan` bigint(20) NOT NULL AUTO_INCREMENT,
   `item_id` bigint(20) NOT NULL,
-  `service_id` bigint(20) NOT NULL,
+  `service_individual_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `item_service_scan_time` datetime DEFAULT NULL,
   `is_deleted` tinyint(4) NOT NULL,
@@ -281,10 +282,10 @@ CREATE TABLE `item_service_scan` (
   `item_service_scan_uat` datetime DEFAULT NULL,
   PRIMARY KEY (`id_item_service_scan`),
   KEY `fk_item_service_scan_item1_idx` (`item_id`),
-  KEY `fk_item_service_scan_service1_idx` (`service_id`),
+  KEY `fk_item_service_scan_service1_idx` (`service_individual_id`),
   KEY `fk_item_service_scan_user1_idx` (`user_id`),
   CONSTRAINT `fk_item_service_scan_item1` FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_item_service_scan_service1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id_service`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_item_service_scan_service1` FOREIGN KEY (`service_individual_id`) REFERENCES `service_individual` (`id_service_individual`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_item_service_scan_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -542,7 +543,7 @@ CREATE TABLE `payment` (
   KEY `fk_payment_payment_type1_idx` (`payment_type_id`),
   CONSTRAINT `fk_payment_order1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id_order`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_payment_payment_type1` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`id_payment_type`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -551,6 +552,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,20,0,NULL,NULL,1,1);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -636,34 +638,34 @@ INSERT INTO `role` VALUES (1,'ADMIN',0,NULL,NULL),(2,'DIRECTOR',0,NULL,NULL),(3,
 UNLOCK TABLES;
 
 --
--- Table structure for table `service`
+-- Table structure for table `service_individual`
 --
 
-DROP TABLE IF EXISTS `service`;
+DROP TABLE IF EXISTS `service_individual`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `service` (
-  `id_service` bigint(20) NOT NULL AUTO_INCREMENT,
-  `service_order` int(11) DEFAULT NULL,
-  `service_name` varchar(45) DEFAULT NULL,
-  `service_code` varchar(4) DEFAULT NULL,
+CREATE TABLE `service_individual` (
+  `id_service_individual` bigint(20) NOT NULL AUTO_INCREMENT,
+  `service_individual_order` int(11) DEFAULT NULL,
+  `service_individual_name` varchar(45) DEFAULT NULL,
+  `service_individual_code` varchar(4) DEFAULT NULL,
   `is_deleted` tinyint(4) NOT NULL,
-  `service_cat` datetime DEFAULT NULL,
-  `service_uat` datetime DEFAULT NULL,
-  PRIMARY KEY (`id_service`),
-  UNIQUE KEY `service_order_UNIQUE` (`service_order`),
-  UNIQUE KEY `service_code_UNIQUE` (`service_code`)
+  `service_individual_cat` datetime DEFAULT NULL,
+  `service_individual_uat` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_service_individual`),
+  UNIQUE KEY `service_order_UNIQUE` (`service_individual_order`),
+  UNIQUE KEY `service_code_UNIQUE` (`service_individual_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `service`
+-- Dumping data for table `service_individual`
 --
 
-LOCK TABLES `service` WRITE;
-/*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,1,'Drywash','D',0,NULL,NULL),(2,2,'Darning','dr',0,NULL,NULL),(3,3,'Dying','dye',0,NULL,NULL),(4,4,'Iron','i',0,NULL,NULL),(5,5,'Roll Iron','Ri',0,NULL,NULL),(6,6,'Starch','S',0,NULL,NULL);
-/*!40000 ALTER TABLE `service` ENABLE KEYS */;
+LOCK TABLES `service_individual` WRITE;
+/*!40000 ALTER TABLE `service_individual` DISABLE KEYS */;
+INSERT INTO `service_individual` VALUES (1,1,'Drywash','D',0,NULL,NULL),(2,2,'Darning','dr',0,NULL,NULL),(3,3,'Dying','dye',0,NULL,NULL),(4,4,'Iron','i',0,NULL,NULL),(5,5,'Roll Iron','Ri',0,NULL,NULL),(6,6,'Starch','S',0,NULL,NULL);
+/*!40000 ALTER TABLE `service_individual` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -704,14 +706,14 @@ DROP TABLE IF EXISTS `service_type_split`;
 CREATE TABLE `service_type_split` (
   `id_service_type_split` bigint(20) NOT NULL AUTO_INCREMENT,
   `service_type_id` bigint(20) NOT NULL,
-  `service_id` bigint(20) NOT NULL,
+  `service_individual_id` bigint(20) NOT NULL,
   `is_deleted` tinyint(4) NOT NULL,
   `service_type_split_cat` datetime DEFAULT NULL,
   `service_type_split_uat` datetime DEFAULT NULL,
   PRIMARY KEY (`id_service_type_split`),
   KEY `fk_service_type_split_service_type1_idx` (`service_type_id`),
-  KEY `fk_service_type_split_service1_idx` (`service_id`),
-  CONSTRAINT `fk_service_type_split_service1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id_service`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_service_type_split_service1_idx` (`service_individual_id`),
+  CONSTRAINT `fk_service_type_split_service1` FOREIGN KEY (`service_individual_id`) REFERENCES `service_individual` (`id_service_individual`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_service_type_split_service_type1` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id_service_type`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -834,14 +836,14 @@ DROP TABLE IF EXISTS `worker_service`;
 CREATE TABLE `worker_service` (
   `id_worker_service` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
-  `service_id` bigint(20) NOT NULL,
+  `service_individual_id` bigint(20) NOT NULL,
   `is_deleted` tinyint(4) NOT NULL,
   `worker_service_cat` datetime DEFAULT NULL,
   `worker_service_uat` datetime DEFAULT NULL,
   PRIMARY KEY (`id_worker_service`),
   KEY `fk_user_service_user1_idx` (`user_id`),
-  KEY `fk_user_service_service1_idx` (`service_id`),
-  CONSTRAINT `fk_user_service_service1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id_service`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_user_service_service1_idx` (`service_individual_id`),
+  CONSTRAINT `fk_user_service_service1` FOREIGN KEY (`service_individual_id`) REFERENCES `service_individual` (`id_service_individual`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_service_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -865,4 +867,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-29 18:05:57
+-- Dump completed on 2018-04-30 13:59:25
