@@ -21,51 +21,51 @@ public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
 
-    /* Create a userUserRole */
-    @PostMapping("userUserRoles")
-    public ResponseEntity<UserRole> createUserRole(@RequestBody UserRole userUserRole, UriComponentsBuilder ucBuilder) {
+    /* Create a userRole */
+    @PostMapping("userRoles")
+    public ResponseEntity<UserRole> createUserRole(@RequestBody UserRole userRole, UriComponentsBuilder ucBuilder) {
 
-        if (userRoleService.isExist(userUserRole)) {
+        if (userRoleService.isExist(userRole)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        userRoleService.save(userUserRole);
+        userRoleService.save(userRole);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("userUserRoles/{id}").buildAndExpand(userUserRole.getIdUserRole()).toUri());
+        headers.setLocation(ucBuilder.path("userRoles/{id}").buildAndExpand(userRole.getIdUserRole()).toUri());
 
-        return new ResponseEntity<>(userUserRole, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(userRole, headers, HttpStatus.CREATED);
     }
 
-    /* Reading single userUserRole */
-    @GetMapping(value = "userUserRoles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    /* Reading single userRole */
+    @GetMapping(value = "userRoles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRole> getUserRole(@PathVariable("id") long idUserRole) {
 
-        UserRole userUserRole = userRoleService.findById(idUserRole);
+        UserRole userRole = userRoleService.findById(idUserRole);
 
-        if (userUserRole == null) {
+        if (userRole == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(userUserRole, HttpStatus.OK);
+        return new ResponseEntity<>(userRole, HttpStatus.OK);
     }
 
-    /*Reads all userUserRoles*/
-    @GetMapping(value = "userUserRoles",produces = MediaTypes.HAL_JSON_VALUE)
+    /*Reads all userRoles*/
+    @GetMapping(value = "userRoles",produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<List<UserRole>> listAllUserRoles() {
 
-        List<UserRole> userUserRole = userRoleService.findAll();
+        List<UserRole> userRole = userRoleService.findAll();
 
-        if (userUserRole.isEmpty()) {
+        if (userRole.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(userUserRole, HttpStatus.OK);
+        return new ResponseEntity<>(userRole, HttpStatus.OK);
     }
 
-    /*Update a userUserRole*/
-    @PutMapping("userUserRoles/{id}")
-    public ResponseEntity<UserRole> updateUserRoleFromDB(@PathVariable("id") Long idUserRole, @RequestBody UserRole userUserRole) {
+    /*Update a userRole*/
+    @PutMapping("userRoles/{id}")
+    public ResponseEntity<UserRole> updateUserRoleFromDB(@PathVariable("id") Long idUserRole, @RequestBody UserRole userRole) {
 
         UserRole currentUserRole = userRoleService.findById(idUserRole);
 
@@ -73,20 +73,20 @@ public class UserRoleController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        userRoleService.update(idUserRole, userUserRole);
+        userRoleService.update(idUserRole, userRole);
 
         UserRole updatedUserRole = userRoleService.findById(idUserRole);
 
         return new ResponseEntity<>(updatedUserRole, HttpStatus.OK);
     }
 
-    /*Delete a userUserRole */
-    @DeleteMapping("userUserRoles/{id}")
+    /*Delete a userRole */
+    @DeleteMapping("userRoles/{id}")
     public ResponseEntity<UserRole> deleteUserRoleFromDB(@PathVariable("id") long idUserRole) {
 
-        UserRole userUserRole = userRoleService.findById(idUserRole);
+        UserRole userRole = userRoleService.findById(idUserRole);
 
-        if (userUserRole == null) {
+        if (userRole == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -95,8 +95,8 @@ public class UserRoleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    /*Delete all userUserRoles*/
-    @DeleteMapping("userUserRoles")
+    /*Delete all userRoles*/
+    @DeleteMapping("userRoles")
     public ResponseEntity<UserRole> deleteAllUserRoles() {
 
         userRoleService.deleteAll();
