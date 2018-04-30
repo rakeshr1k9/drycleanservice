@@ -7,13 +7,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "order_status")
 @EntityListeners(AuditingEntityListener.class)
-public class OrderStatus {
+public class OrderStatus implements Serializable {
 
     private Long idOrderStatus;
     private String orderStatusName;
@@ -21,8 +22,6 @@ public class OrderStatus {
     private Date orderStatusCat;
     private Date orderStatusUat;
     private Integer orderStatusOrder;
-
-    private List<Order> orders;
 
     @Id
     @GeneratedValue
@@ -86,13 +85,4 @@ public class OrderStatus {
         this.orderStatusOrder = orderStatusOrder;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderStatus")
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 }

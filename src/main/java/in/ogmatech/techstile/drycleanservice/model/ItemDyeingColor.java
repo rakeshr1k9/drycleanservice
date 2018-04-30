@@ -6,20 +6,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "item_dyeing_color")
 @EntityListeners(AuditingEntityListener.class)
-public class ItemDyeingColor {
+public class ItemDyeingColor implements Serializable {
 
     private Long idItemDyeingColor;
     private Byte isDeleted;
     private Date itemDyeingColorCat;
     private Date itemDyeingColorUat;
 
-    private Item item;
-    private DyeingColor dyeingColor;
+    private Long itemId;
+    private Long dyeingColorId;
 
     @Id
     @GeneratedValue
@@ -65,23 +66,21 @@ public class ItemDyeingColor {
         this.itemDyeingColorUat = itemDyeingColorUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
-    public Item getItem() {
-        return item;
+    @Column(name = "item_id", nullable = false)
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "dyeing_color_id", referencedColumnName = "id_dyeing_color")
-    public DyeingColor getDyeingColor() {
-        return dyeingColor;
+    @Column(name = "dyeing_color_id", nullable = false)
+    public Long getDyeingColorId() {
+        return dyeingColorId;
     }
 
-    public void setDyeingColor(DyeingColor dyeingColor) {
-        this.dyeingColor = dyeingColor;
+    public void setDyeingColorId(Long dyeingColorId) {
+        this.dyeingColorId = dyeingColorId;
     }
 }

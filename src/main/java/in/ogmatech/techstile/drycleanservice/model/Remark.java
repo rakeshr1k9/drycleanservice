@@ -7,21 +7,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "remark")
 @EntityListeners(AuditingEntityListener.class)
-public class Remark {
+public class Remark implements Serializable {
 
     private Long idRemark;
     private String remarkName;
     private Byte isDeleted;
     private Date remarkCat;
     private Date remarkUat;
-
-    private List<ItemRemark> itemRemarks;
 
     @Id
     @GeneratedValue
@@ -76,13 +75,4 @@ public class Remark {
         this.remarkUat = remarkUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "remark")
-    public List<ItemRemark> getItemRemarks() {
-        return itemRemarks;
-    }
-
-    public void setItemRemarks(List<ItemRemark> itemRemarks) {
-        this.itemRemarks = itemRemarks;
-    }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -14,15 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
-public class Role {
+public class Role implements Serializable {
 
     private Long idRole;
     private String roleName;
     private Byte isDeleted;
     private Date roleCat;
     private Date roleUat;
-
-    private List<UserRole> userRoles;
 
     @Id
     @GeneratedValue
@@ -77,13 +76,4 @@ public class Role {
         this.roleUat = roleUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
-    public List<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
 }

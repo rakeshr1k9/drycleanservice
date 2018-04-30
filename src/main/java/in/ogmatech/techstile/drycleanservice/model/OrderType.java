@@ -8,21 +8,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "order_type")
 @EntityListeners(AuditingEntityListener.class)
-public class OrderType {
+public class OrderType implements Serializable {
 
     private Long idOrderType;
     private String orderTypeName;
     private Byte isDeleted;
     private Date orderTypeCat;
     private Date orderTypeUat;
-
-    private List<Order> orders;
     
     @Id
     @GeneratedValue
@@ -77,13 +76,4 @@ public class OrderType {
         this.orderTypeUat = orderTypeUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderType")
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 }

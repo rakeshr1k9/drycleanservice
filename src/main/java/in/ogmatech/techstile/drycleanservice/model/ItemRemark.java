@@ -6,20 +6,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "item_remark")
 @EntityListeners(AuditingEntityListener.class)
-public class ItemRemark {
+public class ItemRemark implements Serializable {
 
     private Long idItemRemark;
     private Byte isDeleted;
     private Date itemRemarkCat;
     private Date itemRemarkUat;
 
-    private Item item;
-    private Remark remark;
+    private Long itemId;
+    private Long remarkId;
 
     @Id
     @GeneratedValue
@@ -65,23 +66,21 @@ public class ItemRemark {
         this.itemRemarkUat = itemRemarkUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
-    public Item getItem() {
-        return item;
+    @Column(name = "item_id", nullable = false)
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "remark_id", referencedColumnName = "id_remark")
-    public Remark getRemark() {
-        return remark;
+    @Column(name = "remark_id", nullable = false)
+    public Long getRemarkId() {
+        return remarkId;
     }
 
-    public void setRemark(Remark remark) {
-        this.remark = remark;
+    public void setRemarkId(Long remarkId) {
+        this.remarkId = remarkId;
     }
 }

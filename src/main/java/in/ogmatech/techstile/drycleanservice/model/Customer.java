@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 @EntityListeners(AuditingEntityListener.class)
-public class Customer extends ResourceSupport {
+public class Customer extends ResourceSupport implements Serializable {
 
     private Long idCustomer;
     private Long customerMobile;
@@ -24,9 +25,7 @@ public class Customer extends ResourceSupport {
     private Date customerCat;
     private Date customerUat;
 
-    private CustomerType customerType;
-
-    private List<Order> orders;
+    private Long customerTypeId;
 
     @Id
     @GeneratedValue
@@ -90,23 +89,12 @@ public class Customer extends ResourceSupport {
         this.customerUat = customerUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_type_id", referencedColumnName = "id_customer_type")
-    public CustomerType getCustomerType() {
-        return customerType;
+    @Column(name = "customer_type_id", nullable = false)
+    public Long getCustomerTypeId() {
+        return customerTypeId;
     }
 
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setCustomerTypeId(Long customerTypeId) {
+        this.customerTypeId = customerTypeId;
     }
 }

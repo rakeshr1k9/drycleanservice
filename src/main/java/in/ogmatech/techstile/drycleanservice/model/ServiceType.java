@@ -7,13 +7,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "service_type")
 @EntityListeners(AuditingEntityListener.class)
-public class ServiceType {
+public class ServiceType implements Serializable {
 
     private Long idServiceType;
     private String serviceTypeName;
@@ -21,10 +22,6 @@ public class ServiceType {
     private Byte isDeleted;
     private Date serviceTypeCat;
     private Date serviceTypeUat;
-
-    private List<ItemServiceType> itemServiceTypes;
-    private List<ItemTypeServicePrice> itemTypeServicePrices;
-    private List<ServiceTypeSplit> serviceTypeSplits;
 
     @Id
     @GeneratedValue
@@ -88,33 +85,4 @@ public class ServiceType {
         this.serviceTypeUat = serviceTypeUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
-    public List<ItemServiceType> getItemServiceTypes() {
-        return itemServiceTypes;
-    }
-
-    public void setItemServiceTypes(List<ItemServiceType> itemServiceTypes) {
-        this.itemServiceTypes = itemServiceTypes;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
-    public List<ItemTypeServicePrice> getItemTypeServicePrices() {
-        return itemTypeServicePrices;
-    }
-
-    public void setItemTypeServicePrices(List<ItemTypeServicePrice> itemTypeServicePrices) {
-        this.itemTypeServicePrices = itemTypeServicePrices;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceType")
-    public List<ServiceTypeSplit> getServiceTypeSplits() {
-        return serviceTypeSplits;
-    }
-
-    public void setServiceTypeSplits(List<ServiceTypeSplit> serviceTypeSplits) {
-        this.serviceTypeSplits = serviceTypeSplits;
-    }
 }

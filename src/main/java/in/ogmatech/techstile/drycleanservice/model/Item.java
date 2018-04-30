@@ -8,13 +8,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "item")
 @EntityListeners(AuditingEntityListener.class)
-public class Item extends ResourceSupport {
+public class Item extends ResourceSupport implements Serializable {
 
     private Long idItem;
     private String itemQrCode;
@@ -26,14 +27,9 @@ public class Item extends ResourceSupport {
     private Date itemCat;
     private Date itemUat;
 
-    private Order order;
-    private ItemType itemType;
-    private ItemStatus itemStatus;
-
-    private List<ItemRemark> itemRemarks;
-    private List<ItemServiceType> itemServiceTypes;
-    private List<ItemDyeingColor> itemDyeingColors;
-    private List<ItemServiceScan> itemServiceScans;
+    private Long orderId;
+    private Long itemTypeId;
+    private Long itemStatusId;
 
     @Id
     @GeneratedValue
@@ -124,73 +120,30 @@ public class Item extends ResourceSupport {
         this.itemUat = itemUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", referencedColumnName = "id_order")
-    public Order getOrder() {
-        return order;
+    @Column(name = "order_id", nullable = false)
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_type_id", referencedColumnName = "id_item_type")
-    public ItemType getItemType() {
-        return itemType;
+    @Column(name = "item_type_id", nullable = false)
+    public Long getItemTypeId() {
+        return itemTypeId;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public void setItemTypeId(Long itemTypeId) {
+        this.itemTypeId = itemTypeId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_status_id", referencedColumnName = "id_item_status")
-    public ItemStatus getItemStatus() {
-        return itemStatus;
+    @Column(name = "item_status_id", nullable = false)
+    public Long getItemStatusId() {
+        return itemStatusId;
     }
 
-    public void setItemStatus(ItemStatus itemStatus) {
-        this.itemStatus = itemStatus;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "item")
-    public List<ItemRemark> getItemRemarks() {
-        return itemRemarks;
-    }
-
-    public void setItemRemarks(List<ItemRemark> itemRemarks) {
-        this.itemRemarks = itemRemarks;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "item")
-    public List<ItemServiceType> getItemServiceTypes() {
-        return itemServiceTypes;
-    }
-
-    public void setItemServiceTypes(List<ItemServiceType> itemServiceTypes) {
-        this.itemServiceTypes = itemServiceTypes;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "item")
-    public List<ItemDyeingColor> getItemDyeingColors() {
-        return itemDyeingColors;
-    }
-
-    public void setItemDyeingColors(List<ItemDyeingColor> itemDyeingColors) {
-        this.itemDyeingColors = itemDyeingColors;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "item")
-    public List<ItemServiceScan> getItemServiceScans() {
-        return itemServiceScans;
-    }
-
-    public void setItemServiceScans(List<ItemServiceScan> itemServiceScans) {
-        this.itemServiceScans = itemServiceScans;
+    public void setItemStatusId(Long itemStatusId) {
+        this.itemStatusId = itemStatusId;
     }
 }

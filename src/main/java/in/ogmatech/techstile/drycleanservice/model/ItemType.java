@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "item_type")
 @EntityListeners(AuditingEntityListener.class)
-public class ItemType {
+public class ItemType implements Serializable {
 
     private Long idItemType;
     private String itemTypeName;
@@ -23,10 +24,7 @@ public class ItemType {
     private Date itemTypeCat;
     private Date itemTypeUat;
 
-    private ItemCategory itemCategory;
-
-    private List<Item> items;
-    private List<ItemTypeServicePrice> itemTypeServicePrices;
+    private Long itemCategoryId;
 
     @Id
     @GeneratedValue
@@ -90,33 +88,12 @@ public class ItemType {
         this.itemTypeUat = itemTypeUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_category_id", referencedColumnName = "id_item_category")
-    public ItemCategory getItemCategory() {
-        return itemCategory;
+    @Column(name = "item_category_id", nullable = false)
+    public Long getItemCategoryId() {
+        return itemCategoryId;
     }
 
-    public void setItemCategory(ItemCategory itemCategory) {
-        this.itemCategory = itemCategory;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemType")
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemType")
-    public List<ItemTypeServicePrice> getItemTypeServicePrices() {
-        return itemTypeServicePrices;
-    }
-
-    public void setItemTypeServicePrices(List<ItemTypeServicePrice> itemTypeServicePrices) {
-        this.itemTypeServicePrices = itemTypeServicePrices;
+    public void setItemCategoryId(Long itemCategoryId) {
+        this.itemCategoryId = itemCategoryId;
     }
 }

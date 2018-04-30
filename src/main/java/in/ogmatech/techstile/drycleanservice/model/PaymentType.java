@@ -7,21 +7,20 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "payment_type")
 @EntityListeners(AuditingEntityListener.class)
-public class PaymentType {
+public class PaymentType implements Serializable {
 
     private Long idPaymentType;
     private String paymentTypeName;
     private Byte isDeleted;
     private Date paymentTypeCat;
     private Date paymentTypeUat;
-
-    private List<Payment> payments;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -76,13 +75,4 @@ public class PaymentType {
         this.paymentTypeUat = paymentTypeUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paymentType")
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
 }

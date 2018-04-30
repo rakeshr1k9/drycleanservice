@@ -6,20 +6,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "item_service_type")
 @EntityListeners(AuditingEntityListener.class)
-public class ItemServiceType {
+public class ItemServiceType implements Serializable {
 
     private Long idItemServiceType;
     private Byte isDeleted;
     private Date itemServiceTypeCat;
     private Date itemServiceTypeUat;
 
-    private Item item;
-    private ServiceType serviceType;
+    private Long itemId;
+    private Long serviceTypeId;
 
     @Id
     @GeneratedValue
@@ -65,23 +66,21 @@ public class ItemServiceType {
         this.itemServiceTypeUat = itemServiceTypeUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
-    public Item getItem() {
-        return item;
+    @Column(name = "item_id", nullable = false)
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_type_id", referencedColumnName = "id_service_type")
-    public ServiceType getServiceType() {
-        return serviceType;
+    @Column(name = "service_type_id", nullable = false)
+    public Long getServiceTypeId() {
+        return serviceTypeId;
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public void setServiceTypeId(Long serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 }

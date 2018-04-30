@@ -6,12 +6,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "payment")
 @EntityListeners(AuditingEntityListener.class)
-public class Payment {
+public class Payment implements Serializable {
 
     private Long idPayment;
     private Integer paymentRecievedAmount;
@@ -19,8 +20,8 @@ public class Payment {
     private Date paymentCat;
     private Date paymentUat;
 
-    private Order order;
-    private PaymentType paymentType;
+    private Long orderId;
+    private Long paymentTypeId;
 
     @Id
     @GeneratedValue
@@ -75,23 +76,21 @@ public class Payment {
         this.paymentUat = paymentUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", referencedColumnName = "id_order")
-    public Order getOrder() {
-        return order;
+    @Column(name = "order_id", nullable = false)
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "payment_type_id", referencedColumnName = "id_payment_type")
-    public PaymentType getPaymentType() {
-        return paymentType;
+    @Column(name = "payment_type_id", nullable = false)
+    public Long getPaymentTypeId() {
+        return paymentTypeId;
     }
 
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
+    public void setPaymentTypeId(Long paymentTypeId) {
+        this.paymentTypeId = paymentTypeId;
     }
 }

@@ -6,20 +6,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "worker_service")
 @EntityListeners(AuditingEntityListener.class)
-public class WorkerService {
+public class WorkerService implements Serializable {
 
     private Long idWorkerService;
     private Byte isDeleted;
     private Date workerServiceCat;
     private Date userServiceUat;
 
-    private User user;
-    private ServiceIndividual serviceIndividual;
+    private Long userId;
+    private Long serviceIndividualId;
 
     @Id
     @GeneratedValue
@@ -65,23 +66,21 @@ public class WorkerService {
         this.userServiceUat = userServiceUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
-    public ServiceIndividual getServiceIndividual() {
-        return serviceIndividual;
+    @Column(name = "service_individual_id", nullable = false)
+    public Long getServiceIndividualId() {
+        return serviceIndividualId;
     }
 
-    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
-        this.serviceIndividual = serviceIndividual;
+    public void setServiceIndividualId(Long serviceIndividualId) {
+        this.serviceIndividualId = serviceIndividualId;
     }
 }

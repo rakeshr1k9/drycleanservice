@@ -19,8 +19,8 @@ public class ItemTypeServicePrice {
     private Date itemTypeServicePriceCat;
     private Date itemTypeServicePriceUat;
 
-    private ItemType itemType;
-    private ServiceType serviceType;
+    private Long itemTypeId;
+    private Long serviceTypeId;
 
     @Id
     @GeneratedValue
@@ -75,23 +75,21 @@ public class ItemTypeServicePrice {
         this.itemTypeServicePriceUat = itemTypeServicePriceUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_type_id", referencedColumnName = "id_item_type")
-    public ItemType getItemType() {
-        return itemType;
+    @Column(name = "item_type_id", nullable = false)
+    public Long getItemTypeId() {
+        return itemTypeId;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public void setItemTypeId(Long itemTypeId) {
+        this.itemTypeId = itemTypeId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_type_id", referencedColumnName = "id_service_type")
-    public ServiceType getServiceType() {
-        return serviceType;
+    @Column(name = "service_type_id", nullable = false)
+    public Long getServiceTypeId() {
+        return serviceTypeId;
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public void setServiceTypeId(Long serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 }

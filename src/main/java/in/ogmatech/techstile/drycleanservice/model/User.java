@@ -9,13 +9,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
-public class User extends ResourceSupport{
+public class User extends ResourceSupport implements Serializable {
 
     private Long idUser;
     private String username;
@@ -26,11 +27,7 @@ public class User extends ResourceSupport{
     private Date userUat;
     private String userDeviceIdentity;
 
-    private Branch branch;
-
-    private List<UserRole> userRoles;
-    private List<WorkerService> workerServices;
-    private ItemServiceScan itemServiceScan;
+    private Long branchId;
 
     @Id
     @GeneratedValue
@@ -112,43 +109,12 @@ public class User extends ResourceSupport{
         this.userDeviceIdentity = userDeviceIdentity;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch")
-    public Branch getBranch() {
-        return branch;
+    @Column(name = "branch_id", nullable = false)
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    public List<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    public List<WorkerService> getWorkerServices() {
-        return workerServices;
-    }
-
-    public void setWorkerServices(List<WorkerService> workerServices) {
-        this.workerServices = workerServices;
-    }
-
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    public ItemServiceScan getItemServiceScan() {
-        return itemServiceScan;
-    }
-
-    public void setItemServiceScan(ItemServiceScan itemServiceScan) {
-        this.itemServiceScan = itemServiceScan;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 }

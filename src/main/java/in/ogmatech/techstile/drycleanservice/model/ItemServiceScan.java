@@ -6,12 +6,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "item_service_scan")
 @EntityListeners(AuditingEntityListener.class)
-public class ItemServiceScan {
+public class ItemServiceScan implements Serializable {
 
     private Long idItemServiceScan;
     private Date itemServiceScanTime;
@@ -19,10 +20,9 @@ public class ItemServiceScan {
     private Date itemServiceScanCat;
     private Date itemServiceScanUat;
 
-    private Item item;
-    private ServiceIndividual serviceIndividual;
-
-    private User user;
+    private Long itemId;
+    private Long serviceIndividualId;
+    private Long userId;
 
     @Id
     @GeneratedValue
@@ -77,33 +77,30 @@ public class ItemServiceScan {
         this.itemServiceScanUat = itemServiceScanUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id", referencedColumnName = "id_item")
-    public Item getItem() {
-        return item;
+    @Column(name = "item_id", nullable = false)
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
-    public ServiceIndividual getServiceIndividual() {
-        return serviceIndividual;
+    @Column(name = "service_individual_id", nullable = false)
+    public Long getServiceIndividualId() {
+        return serviceIndividualId;
     }
 
-    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
-        this.serviceIndividual = serviceIndividual;
+    public void setServiceIndividualId(Long serviceIndividualId) {
+        this.serviceIndividualId = serviceIndividualId;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

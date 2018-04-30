@@ -7,12 +7,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "temp_order")
 @EntityListeners(AuditingEntityListener.class)
-public class TempOrder {
+public class TempOrder implements Serializable {
 
     private Long idTempOrder;
     private Long tempOrderNumber;
@@ -21,7 +22,7 @@ public class TempOrder {
     private Date tempOrderCat;
     private Date tempOrderUat;
 
-    private Order order;
+    private Long orderId;
 
     @Id
     @GeneratedValue
@@ -85,13 +86,12 @@ public class TempOrder {
         this.tempOrderUat = tempOrderUat;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", referencedColumnName = "id_order")
-    public Order getOrder() {
-        return order;
+    @Column(name = "order_id", nullable = false)
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

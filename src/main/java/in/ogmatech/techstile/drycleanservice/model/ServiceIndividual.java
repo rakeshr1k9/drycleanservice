@@ -7,13 +7,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "service_individual")
 @EntityListeners(AuditingEntityListener.class)
-public class ServiceIndividual {
+public class ServiceIndividual implements Serializable {
 
     private Long idServiceIndividual;
     private Integer serviceIndividualOrder;
@@ -22,10 +23,6 @@ public class ServiceIndividual {
     private Byte isDeleted;
     private Date serviceIndividualCat;
     private Date serviceIndividualUat;
-
-    private List<WorkerService> workerServices;
-    private List<ItemServiceScan> itemServiceScans;
-    private List<ServiceTypeSplit> serviceTypeSplits;
 
     @Id
     @GeneratedValue
@@ -98,33 +95,4 @@ public class ServiceIndividual {
         this.serviceIndividualUat = serviceIndividualUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceIndividual")
-    public List<WorkerService> getWorkerServices() {
-        return workerServices;
-    }
-
-    public void setWorkerServices(List<WorkerService> workerServices) {
-        this.workerServices = workerServices;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceIndividual")
-    public List<ItemServiceScan> getItemServiceScans() {
-        return itemServiceScans;
-    }
-
-    public void setItemServiceScans(List<ItemServiceScan> itemServiceScans) {
-        this.itemServiceScans = itemServiceScans;
-    }
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceIndividual")
-    public List<ServiceTypeSplit> getServiceTypeSplits() {
-        return serviceTypeSplits;
-    }
-
-    public void setServiceTypeSplits(List<ServiceTypeSplit> serviceTypeSplits) {
-        this.serviceTypeSplits = serviceTypeSplits;
-    }
 }

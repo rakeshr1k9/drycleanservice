@@ -6,21 +6,22 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_role")
 @EntityListeners(AuditingEntityListener.class)
-public class UserRole {
+public class UserRole implements Serializable {
 
     private Long idUserRole;
     private Byte isDeleted;
     private Date userRoleCat;
     private Date userRoleUat;
 
-    private User user;
-    private Role role;
+    private Long userId;
+    private Long roleId;
 
     @Id
     @GeneratedValue
@@ -66,23 +67,21 @@ public class UserRole {
         this.userRoleUat = userRoleUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", referencedColumnName = "id_role")
-    public Role getRole() {
-        return role;
+    @Column(name = "role_id", nullable = false)
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

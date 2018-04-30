@@ -6,20 +6,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "service_type_split")
 @EntityListeners(AuditingEntityListener.class)
-public class ServiceTypeSplit {
+public class ServiceTypeSplit implements Serializable {
 
     private Long idServiceTypeSplit;
     private Byte isDeleted;
     private Date serviceTypeSplitCat;
     private Date serviceTypeSplitUat;
 
-    private ServiceType serviceType;
-    private ServiceIndividual serviceIndividual;
+    private Long serviceTypeId;
+    private Long serviceIndividualId;
 
     @Id
     @GeneratedValue
@@ -65,23 +66,21 @@ public class ServiceTypeSplit {
         this.serviceTypeSplitUat = serviceTypeSplitUat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_type_id", referencedColumnName = "id_service_type")
-    public ServiceType getServiceType() {
-        return serviceType;
+    @Column(name = "service_type_id", nullable = false)
+    public Long getServiceTypeId() {
+        return serviceTypeId;
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public void setServiceTypeId(Long serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_individual_id", referencedColumnName = "id_service_individual")
-    public ServiceIndividual getServiceIndividual() {
-        return serviceIndividual;
+    @Column(name = "service_individual_id", nullable = false)
+    public Long getServiceIndividualId() {
+        return serviceIndividualId;
     }
 
-    public void setServiceIndividual(ServiceIndividual serviceIndividual) {
-        this.serviceIndividual = serviceIndividual;
+    public void setServiceIndividualId(Long serviceIndividualId) {
+        this.serviceIndividualId = serviceIndividualId;
     }
 }

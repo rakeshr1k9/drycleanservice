@@ -7,13 +7,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "dyeing_color")
 @EntityListeners(AuditingEntityListener.class)
-public class DyeingColor {
+public class DyeingColor implements Serializable {
 
     private Long idDyeingColor;
     private Integer dyeingColorNumber;
@@ -22,7 +23,6 @@ public class DyeingColor {
     private Date dyeingColorCat;
     private Date dyeingColorUat;
 
-    private List<ItemDyeingColor> itemDyeingColors;
     @Id
     @GeneratedValue
     @Column(name = "id_dyeing_color", nullable = false)
@@ -85,13 +85,4 @@ public class DyeingColor {
         this.dyeingColorUat = dyeingColorUat;
     }
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dyeingColor")
-    public List<ItemDyeingColor> getItemDyeingColors() {
-        return itemDyeingColors;
-    }
-
-    public void setItemDyeingColors(List<ItemDyeingColor> itemDyeingColors) {
-        this.itemDyeingColors = itemDyeingColors;
-    }
 }
