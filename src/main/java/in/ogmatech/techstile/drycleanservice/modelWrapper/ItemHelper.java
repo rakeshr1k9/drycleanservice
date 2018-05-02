@@ -20,14 +20,13 @@ public class ItemHelper implements Serializable{
         this.item = item;
     }
 
-    private List<ServiceType> ServiceTypes;
+    private List<ItemServiceType> itemServiceTypes;
 
-
-    public List<ServiceType> getServiceTypes() {
-        return ServiceTypes;
+    public List<ItemServiceType> getItemServiceTypes() {
+        return itemServiceTypes;
     }
 
-    public void setServiceTypes(List<ServiceType> serviceTypes) {
-        ServiceTypes = serviceTypes;
+    public void setItemServiceTypes(List<ItemServiceType> itemServiceTypes) {
+        this.itemServiceTypes = itemServiceTypes;
     }
 }

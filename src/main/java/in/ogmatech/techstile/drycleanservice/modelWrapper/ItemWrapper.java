@@ -17,8 +17,5 @@ public class ItemWrapper implements Serializable {
         this.itemHelpers = itemHelpers;
     }
 
-
-
-
 }
 

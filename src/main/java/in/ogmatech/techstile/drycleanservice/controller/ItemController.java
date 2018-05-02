@@ -30,9 +30,9 @@ public class ItemController {
     private ItemServiceTypeService itemServiceTypeService;
 
     @PostMapping("items/create")
-    public ResponseEntity<?> create(@RequestBody ItemWrapper itemWrapper) {
+    public ResponseEntity<?> create(@RequestBody List<ItemHelper> itemHelpers) {
 
-       List<ItemHelper> itemHelpers = itemWrapper.getItemHelpers();
+      // List<ItemHelper> itemHelpers = itemWrapper.getItemHelpers();
 
        for(ItemHelper itemHelper : itemHelpers) {
 
@@ -44,9 +44,11 @@ public class ItemController {
 
            itemServiceType.setItemId(newItem.getIdItem());
 
-           for(ServiceType serviceType: itemHelper.getServiceTypes()) {
+           for(ItemServiceType itemServiceTypes: itemHelper.getItemServiceTypes()) {
 
-               itemServiceType.setServiceTypeId(serviceType.getIdServiceType());
+               itemServiceType.setServiceTypeId(itemServiceTypes.getServiceTypeId());
+
+               itemServiceType.setIsDeleted(itemServiceTypes.getIsDeleted());
 
                itemServiceTypeService.save(itemServiceType);
            }
