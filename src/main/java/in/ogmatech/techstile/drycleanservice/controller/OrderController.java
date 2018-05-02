@@ -1,6 +1,7 @@
 package in.ogmatech.techstile.drycleanservice.controller;
 
 import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
+import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 import in.ogmatech.techstile.drycleanservice.model.Order;
 import in.ogmatech.techstile.drycleanservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,13 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+
+    /* Create new order */
+    @PostMapping("orders/create")
+    public ResponseEntity<ItemWrapper> create(@RequestBody ItemWrapper orderHelper){
+        return new ResponseEntity<>(orderHelper, HttpStatus.CREATED);
+    }
 
     /* Create a order */
     @PostMapping("orders")

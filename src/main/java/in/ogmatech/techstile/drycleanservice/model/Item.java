@@ -146,4 +146,5 @@ public class Item extends ResourceSupport implements Serializable {
     public void setItemStatusId(Long itemStatusId) {
         this.itemStatusId = itemStatusId;
     }
+
 }

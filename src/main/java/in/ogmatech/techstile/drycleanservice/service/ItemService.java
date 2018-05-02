@@ -1,6 +1,7 @@
 package in.ogmatech.techstile.drycleanservice.service;
 
 import in.ogmatech.techstile.drycleanservice.model.Item;
+import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface ItemService {
     Item save(Item item);
 
     Item findById(Long idItem);
+
+    void saveMany(List<Item> items);
 
     List<Item> findAll();
 

@@ -2,7 +2,13 @@ package in.ogmatech.techstile.drycleanservice.controller;
 
 import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
 import in.ogmatech.techstile.drycleanservice.model.Item;
+import in.ogmatech.techstile.drycleanservice.model.ItemServiceType;
+import in.ogmatech.techstile.drycleanservice.model.ServiceType;
+import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemHelper;
+import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 import in.ogmatech.techstile.drycleanservice.service.ItemService;
+import in.ogmatech.techstile.drycleanservice.service.ItemServiceTypeService;
+import in.ogmatech.techstile.drycleanservice.service.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +26,34 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private ItemServiceTypeService itemServiceTypeService;
+
+    @PostMapping("items/create")
+    public ResponseEntity<?> create(@RequestBody ItemWrapper itemWrapper) {
+
+       List<ItemHelper> itemHelpers = itemWrapper.getItemHelpers();
+
+       for(ItemHelper itemHelper : itemHelpers) {
+
+           Item item = itemHelper.getItem();
+
+           Item newItem =  itemService.save(item);
+
+           ItemServiceType itemServiceType = new ItemServiceType();
+
+           itemServiceType.setItemId(newItem.getIdItem());
+
+           for(ServiceType serviceType: itemHelper.getServiceTypes()) {
+
+               itemServiceType.setServiceTypeId(serviceType.getIdServiceType());
+
+               itemServiceTypeService.save(itemServiceType);
+           }
+       }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     /* Create a item */
     @PostMapping("items")

@@ -1,6 +1,7 @@
 package in.ogmatech.techstile.drycleanservice.service;
 
 import in.ogmatech.techstile.drycleanservice.model.Item;
+import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 import in.ogmatech.techstile.drycleanservice.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class ItemServiceBean implements ItemService{
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Override
+    public void saveMany(List<Item> items) {
+        itemRepository.save(items);
+    }
 
     @Override
     public boolean isExist(Item item) {
