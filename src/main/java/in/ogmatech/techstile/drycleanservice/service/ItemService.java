@@ -13,6 +13,8 @@ public interface ItemService {
 
     Item findById(Long idItem);
 
+    List<Item> findByOrderId(Long orderId);
+
     void saveMany(List<Item> items);
 
     List<Item> findAll();

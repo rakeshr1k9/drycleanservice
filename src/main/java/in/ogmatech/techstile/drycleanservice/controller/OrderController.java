@@ -1,8 +1,12 @@
 package in.ogmatech.techstile.drycleanservice.controller;
 
 import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
+import in.ogmatech.techstile.drycleanservice.model.Customer;
+import in.ogmatech.techstile.drycleanservice.model.Item;
 import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 import in.ogmatech.techstile.drycleanservice.model.Order;
+import in.ogmatech.techstile.drycleanservice.service.CustomerService;
+import in.ogmatech.techstile.drycleanservice.service.ItemService;
 import in.ogmatech.techstile.drycleanservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
@@ -21,6 +25,12 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    ItemService itemService;
 
 
     /* Create new order */
@@ -111,6 +121,22 @@ public class OrderController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    /* Print order */
+    @GetMapping("orders/printOrder/{id}")
+    public ResponseEntity<Order> printOrderReceipt(@PathVariable("id") long idOrder){
+        Order order = orderService.findById(idOrder);
+        if (order == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Customer customer = customerService.findById(order.getCustomerId());
+
+        List<Item> items = itemService.findByOrderId(order.getIdOrder());
+
+        return new ResponseEntity(order, HttpStatus.OK);
+    }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)

@@ -39,6 +39,12 @@ public class ItemServiceBean implements ItemService{
     }
 
     @Override
+    public List<Item> findByOrderId(Long orderId) {
+        List<Item> items = itemRepository.findByOrderId(orderId);
+        return items;
+    }
+
+    @Override
     public List<Item> findAll() {
         return itemRepository.findAll();
     }
