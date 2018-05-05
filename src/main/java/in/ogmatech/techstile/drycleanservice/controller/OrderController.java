@@ -126,10 +126,17 @@ public class OrderController {
     @GetMapping("orders/printOrder/{id}")
     public ResponseEntity<Order> printOrderReceipt(@PathVariable("id") long idOrder){
         Order order = orderService.findById(idOrder);
-        if (order == null) {
+       /* if (order == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(order.getIsDeleted() > 0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        if(order.getOrderStatusId()==0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+*/
         Customer customer = customerService.findById(order.getCustomerId());
 
         List<Item> items = itemService.findByOrderId(order.getIdOrder());
