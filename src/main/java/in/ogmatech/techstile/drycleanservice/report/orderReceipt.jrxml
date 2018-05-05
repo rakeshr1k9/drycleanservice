@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orderReceipt" pageWidth="216" pageHeight="720" columnWidth="202" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="6410626f-8a93-4002-8597-9b5ad00ac800">
+	<property name="com.jaspersoft.studio.unit." value="inch"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="orderNumber" class="java.lang.String"/>
+	<field name="orderReceivedBy" class="java.lang.String"/>
+	<field name="orderReceivedAt" class="java.util.Date"/>
+	<field name="orderShouldDeliverAt" class="java.util.Date"/>
+	<field name="customerMobile" class="java.lang.Long"/>
+	<field name="customerName" class="java.lang.String"/>
+	<background>
+		<band height="600" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="200" height="11" uuid="54dd5036-6736-4a81-adea-82c0645b08ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[********************************************]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="13" width="200" height="15" uuid="b51cc146-aea3-44d2-8475-47e695682041"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Eras Demi ITC" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SANTHOSH DRY CLEANING SERVICE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="28" width="200" height="13" uuid="f5a047f6-9c69-49a4-ab24-83cfb63bcb7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bahnschrift" size="9"/>
+				</textElement>
+				<text><![CDATA[Near A to Z Kuvempunagara
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="45" width="200" height="12" uuid="d3a031f6-5c8f-4e4b-b7a9-90b3e7ce1a1a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="7"/>
+				</textElement>
+				<text><![CDATA[#1542, Aniketana Road, C & D Block, Kuvempunagara, Mysuru
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="56" width="25" height="10" uuid="a054a9d6-aab1-4901-b87e-30e9592e141f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="7"/>
+				</textElement>
+				<text><![CDATA[Pin code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="56" width="5" height="10" uuid="c475faba-f304-476a-8167-71403e5fb1dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="102" y="56" width="22" height="10" uuid="678204fe-6f3c-49a5-95fe-2a60cd8b663b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="7"/>
+				</textElement>
+				<text><![CDATA[570023]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="68" width="9" height="10" uuid="5187def7-b066-4a84-8576-ad1a65dce0a4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Ph]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="68" width="5" height="10" uuid="fc6b1ac8-243b-4b1d-8e4d-086ae3c9a2dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="68" width="135" height="10" uuid="395a7cfc-82f9-493c-bf99-351b9093c9e3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[8712251981, 9880655111, 9988774433]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="78" width="34" height="10" uuid="62d21a36-d1c2-4033-bad1-c94e0ac1fbb1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Website]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="78" width="5" height="10" uuid="168f0af4-89ee-4c9d-92d9-f64a6c01db7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="78" width="93" height="10" uuid="6e9ea153-f166-4ff1-88ca-4e0ecc345a03"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[www.santhoshdryclean.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="93" width="200" height="1" uuid="6fa158d6-b8dc-485b-93eb-225a46d9f72b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="96" width="200" height="13" uuid="aef00d27-e8bd-4102-88e1-866d2a9b648f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[ORDER RECEIPT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="110" width="200" height="1" uuid="af405aa4-3f2e-47c4-b6d9-3fd57180dfac"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="115" width="50" height="15" uuid="2417f884-5cc4-491d-b008-1883b7de2690"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Invoice No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="115" width="5" height="15" uuid="50d3bb2c-f726-482d-bc73-1ad9d57d4860"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="115" width="90" height="15" uuid="bcbb25e2-c47c-4a5a-878e-3158dc8aa894"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderNumber}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{orderNumber}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="132" width="50" height="12" uuid="8d95699c-3fa1-4a42-b819-809eddb52500"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Received Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="132" width="5" height="12" uuid="92c178bc-775a-4002-9914-b040fb1ac714"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy h:mm a" isBlankWhenNull="true">
+				<reportElement x="60" y="132" width="90" height="12" uuid="c2ef8a90-c928-48b1-9684-5c5fb02292c9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderReceivedAt}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{orderReceivedAt}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="146" width="50" height="14" uuid="7878a212-bdae-4841-b5a9-91b61857e02c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Cashier]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="146" width="5" height="14" uuid="e207582a-d3a6-4fc0-b03f-6e2a26d870bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="146" width="90" height="14" uuid="b31ad12a-46ee-4fff-aebe-1cc6d7fbe5a5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderReceivedBy}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{orderReceivedBy}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="162" width="50" height="12" uuid="ef56b58b-af5e-4f3e-adfc-be2ff21aedba"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Received Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="162" width="5" height="12" uuid="987b671e-47db-4875-865d-1ffc4da6b650"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy h:mm a" isBlankWhenNull="true">
+				<reportElement x="60" y="162" width="90" height="12" uuid="1286d945-c8ed-4fe7-8075-77f8528aa98a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderShouldDeliverAt}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{orderShouldDeliverAt}]]></patternExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="178" width="200" height="1" uuid="6639e9cd-9aec-48e2-a305-51be608940db"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="182" width="50" height="14" uuid="000cb338-4d6f-4805-983a-ebf0aaa784da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Customer No]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="182" width="90" height="14" uuid="18346b1a-a5b7-4825-90e7-ab47426c9139"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerMobile}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{customerMobile}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="182" width="5" height="14" uuid="c3b4fa7c-5af2-4bfa-bf19-c826fca300ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="198" width="50" height="12" uuid="ee783c25-d224-4d41-a0bd-7b39322d1297"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="198" width="5" height="12" uuid="d6f7bb15-5624-48da-b541-e47964cba286"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="198" width="90" height="12" uuid="a98bebbe-28d1-4a7f-af03-6c584c0358c4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{customerName}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="212" width="50" height="12" uuid="f8230c4c-7562-44f3-8885-3ca445c04ca9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="212" width="5" height="12" uuid="903ea2d6-abcc-4a80-9f10-db923ab0b68a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="212" width="90" height="12" uuid="08581abe-077e-4d9c-96ba-18a8bf7cdceb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Mysuru]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="228" width="200" height="1" uuid="e6acb518-231a-4f9e-8e83-7d1d8474d265"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="231" width="54" height="13" uuid="f30a8df7-ec52-4c84-977f-570d2d266f05"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="231" width="54" height="13" uuid="4abcfcf8-1bfc-4b0b-91c8-4686ab57a336"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="231" width="15" height="13" uuid="b68f5e68-c3ac-4704-b1f2-83f33848895d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="231" width="26" height="13" uuid="e8ba4172-ddb2-4f05-ac73-11a57eeb1ba2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="231" width="38" height="13" uuid="d9fb1af9-6280-423e-9d19-094fb656991d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="8"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="245" width="200" height="1" uuid="e299bf64-0c83-4241-b0d3-473cbfd7431f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</background>
+</jasperReport>
