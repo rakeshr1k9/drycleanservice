@@ -4,16 +4,27 @@ import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
 import in.ogmatech.techstile.drycleanservice.modelWrapper.ItemWrapper;
 import in.ogmatech.techstile.drycleanservice.model.Order;
 import in.ogmatech.techstile.drycleanservice.service.OrderService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -21,6 +32,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
 
     /* Create new order */
@@ -56,6 +70,65 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(order, HttpStatus.OK);
+
+
+    }
+
+   /* @GetMapping(value = "print/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ModelAndView getPrint(@PathVariable("id") long idOrder) {
+
+        Order order = orderService.findById(idOrder);
+
+        JasperReportsPdfView view = new JasperReportsPdfView();
+        view.setUrl("classpath:test.jrxml");
+        view.setApplicationContext(applicationContext);
+
+        Map params = new HashMap();
+
+
+        params.put("idOrder", "fine");
+
+
+
+        return new ModelAndView(view, params);
+
+    }*/
+
+    @GetMapping(value = "print/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody ResponseEntity getPrint(@PathVariable("id") long idOrder) throws JRException,IOException {
+
+        ResponseEntity responseEntity;
+
+        Random random = new Random();
+        int filename = random.nextInt(200000);
+
+        List<Order> orders = orderService.findAll();
+
+        String report = "src/main/resources/test.jrxml";
+        JasperReport jreport = JasperCompileManager.compileReport(report);
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(orders);
+
+        Map params = new HashMap();
+
+        JasperPrint jprint = JasperFillManager.fillReport(jreport, params, ds);
+        JasperExportManager.exportReportToPdfFile(jprint, "src/main/resources/"+filename+".pdf");
+
+      //  JasperExportManager.exportReportToHtmlFile(jprint, "src/main/resources/"+filename+".html");
+
+        InputStream inputStream = new FileInputStream("src/main/resources/"+filename+".pdf");
+
+        byte[] out = IOUtils.toByteArray(inputStream);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("content-disposition", "attachment; filename=" + filename+".pdf");
+        responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        responseHeaders.add("Pragma", "no-cache");
+        responseHeaders.add("Content-Type","application/pdf");
+
+        responseEntity = new ResponseEntity(out, responseHeaders, HttpStatus.OK);
+
+        return responseEntity;
+
     }
 
     /*Reads all orders*/
