@@ -28,8 +28,8 @@ public class OrderServiceBean implements OrderService {
     }
 
     @Override
-    public Order findById(Long idOrder) {
-        return orderRepository.findOne(idOrder);
+    public Order findById(Integer idOrder) {
+        return orderRepository.findById(idOrder).orElse(null);
     }
 
     @Override
@@ -38,9 +38,9 @@ public class OrderServiceBean implements OrderService {
     }
 
     @Override
-    public Order update(Long idOrder, Order order) {
+    public Order update(Integer idOrder, Order order) {
 
-        Order currentOrder = orderRepository.findOne(idOrder);
+        Order currentOrder = orderRepository.findById(idOrder).orElse(null);
 
        /* currentOrder.setOrdername(order.getOrdername());
         currentOrder.setPassword(order.getPassword());
@@ -53,13 +53,33 @@ public class OrderServiceBean implements OrderService {
     }
 
     @Override
-    public void delete(Long idOrder) {
-        orderRepository.delete(idOrder);
+    public void delete(Integer idOrder) {
+        orderRepository.deleteById(idOrder);
     }
 
     @Override
     public void deleteAll() {
         orderRepository.deleteAll();
     }
-    
+
+    @Override
+    public List<Order> listAllOrders(Byte isDeleted, Integer branchId, List<Integer> orderStatusId) {
+        return orderRepository.findByIsDeletedAndBranchIdAndOrderStatusIdInOrderByOrderShouldDeliverAtAsc(isDeleted, branchId, orderStatusId);
+    }
+
+    @Override
+    public List<Order> listQuickOrders(Byte isQuickDelivery, Byte isDeleted, Integer branchId, List<Integer> orderStatusId) {
+        return orderRepository.findByIsQuickDeliveryAndIsDeletedAndBranchIdAndOrderStatusIdInOrderByOrderShouldDeliverAtAsc(isQuickDelivery, isDeleted, branchId, orderStatusId);
+    }
+
+    @Override
+    public List<Order> listOrdersByPhone(Byte isDeleted, Integer branchId, Long customerMobile) {
+        return orderRepository.findByIsDeletedAndBranchIdAndCustomerMobileOrderByOrderShouldDeliverAtAsc(isDeleted, branchId, customerMobile);
+    }
+
+    @Override
+    public List<Order> listOrdersByOrderNo(Byte isDeleted, Integer branchId, Integer orderNumber) {
+        return orderRepository.findByIsDeletedAndBranchIdAndOrderNumberLikeOrderByOrderShouldDeliverAtAsc(isDeleted, branchId, orderNumber);
+    }
+
 }

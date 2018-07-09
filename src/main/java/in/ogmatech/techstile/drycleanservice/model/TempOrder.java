@@ -1,58 +1,52 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "temp_order")
-@EntityListeners(AuditingEntityListener.class)
-public class TempOrder implements Serializable {
-
-    private Long idTempOrder;
-    private Long tempOrderNumber;
-    private Date tempOrderReceivedAt;
+@Table(name = "temp_order", schema = "techstile", catalog = "")
+public class TempOrder {
+    private Integer idTempOrder;
+    private Integer tempOrderNumber;
+    private Timestamp tempOrderReceivedAt;
     private Byte isDeleted;
-    private Date tempOrderCat;
-    private Date tempOrderUat;
-
-    private Long orderId;
+    private Timestamp tempOrderCat;
+    private Timestamp tempOrderUat;
+    private Order orderByOrderId;
+    private Branch branchByBranchId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_temp_order", nullable = false)
-    public Long getIdTempOrder() {
+    public Integer getIdTempOrder() {
         return idTempOrder;
     }
 
-    public void setIdTempOrder(Long idTempOrder) {
+    public void setIdTempOrder(Integer idTempOrder) {
         this.idTempOrder = idTempOrder;
     }
 
+    @Basic
     @Column(name = "temp_order_number", nullable = true)
-    public Long getTempOrderNumber() {
+    public Integer getTempOrderNumber() {
         return tempOrderNumber;
     }
 
-    public void setTempOrderNumber(Long tempOrderNumber) {
+    public void setTempOrderNumber(Integer tempOrderNumber) {
         this.tempOrderNumber = tempOrderNumber;
     }
 
+    @Basic
     @Column(name = "temp_order_received_at", nullable = true)
-    public Date getTempOrderReceivedAt() {
+    public Timestamp getTempOrderReceivedAt() {
         return tempOrderReceivedAt;
     }
 
-    public void setTempOrderReceivedAt(Date tempOrderReceivedAt) {
+    public void setTempOrderReceivedAt(Timestamp tempOrderReceivedAt) {
         this.tempOrderReceivedAt = tempOrderReceivedAt;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -62,36 +56,62 @@ public class TempOrder implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "temp_order_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getTempOrderCat() {
+    @Basic
+    @Column(name = "temp_order_cat", nullable = true)
+    public Timestamp getTempOrderCat() {
         return tempOrderCat;
     }
 
-    public void setTempOrderCat(Date tempOrderCat) {
+    public void setTempOrderCat(Timestamp tempOrderCat) {
         this.tempOrderCat = tempOrderCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "temp_order_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getTempOrderUat() {
+    public Timestamp getTempOrderUat() {
         return tempOrderUat;
     }
 
-    public void setTempOrderUat(Date tempOrderUat) {
+    public void setTempOrderUat(Timestamp tempOrderUat) {
         this.tempOrderUat = tempOrderUat;
     }
 
-    @Column(name = "order_id", nullable = false)
-    public Long getOrderId() {
-        return orderId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TempOrder tempOrder = (TempOrder) o;
+        return idTempOrder == tempOrder.idTempOrder &&
+                isDeleted == tempOrder.isDeleted &&
+                Objects.equals(tempOrderNumber, tempOrder.tempOrderNumber) &&
+                Objects.equals(tempOrderReceivedAt, tempOrder.tempOrderReceivedAt) &&
+                Objects.equals(tempOrderCat, tempOrder.tempOrderCat) &&
+                Objects.equals(tempOrderUat, tempOrder.tempOrderUat);
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idTempOrder, tempOrderNumber, tempOrderReceivedAt, isDeleted, tempOrderCat, tempOrderUat);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id_order", nullable = false)
+    public Order getOrderByOrderId() {
+        return orderByOrderId;
+    }
+
+    public void setOrderByOrderId(Order orderByOrderId) {
+        this.orderByOrderId = orderByOrderId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch", nullable = false)
+    public Branch getBranchByBranchId() {
+        return branchByBranchId;
+    }
+
+    public void setBranchByBranchId(Branch branchByBranchId) {
+        this.branchByBranchId = branchByBranchId;
     }
 }

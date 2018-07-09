@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Common {
+
     public static void copyNonNullProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
     }

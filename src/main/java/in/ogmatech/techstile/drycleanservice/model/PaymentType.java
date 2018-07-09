@@ -1,39 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "payment_type")
-@EntityListeners(AuditingEntityListener.class)
-public class PaymentType implements Serializable {
-
-    private Long idPaymentType;
+@Table(name = "payment_type", schema = "techstile", catalog = "")
+public class PaymentType {
+    private Integer idPaymentType;
     private String paymentTypeName;
     private Byte isDeleted;
-    private Date paymentTypeCat;
-    private Date paymentTypeUat;
+    private Timestamp paymentTypeCat;
+    private Timestamp paymentTypeUat;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id_payment_type", nullable = false)
-    public Long getIdPaymentType() {
+    public Integer getIdPaymentType() {
         return idPaymentType;
     }
 
-    public void setIdPaymentType(Long idPaymentType) {
+    public void setIdPaymentType(Integer idPaymentType) {
         this.idPaymentType = idPaymentType;
     }
 
-    @Column(name = "payment_type_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "payment_type_name", nullable = true, length = 20)
     public String getPaymentTypeName() {
         return paymentTypeName;
     }
@@ -42,6 +33,7 @@ public class PaymentType implements Serializable {
         this.paymentTypeName = paymentTypeName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -51,28 +43,41 @@ public class PaymentType implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "payment_type_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getPaymentTypeCat() {
+    @Basic
+    @Column(name = "payment_type_cat", nullable = true)
+    public Timestamp getPaymentTypeCat() {
         return paymentTypeCat;
     }
 
-    public void setPaymentTypeCat(Date paymentTypeCat) {
+    public void setPaymentTypeCat(Timestamp paymentTypeCat) {
         this.paymentTypeCat = paymentTypeCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "payment_type_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getPaymentTypeUat() {
+    public Timestamp getPaymentTypeUat() {
         return paymentTypeUat;
     }
 
-    public void setPaymentTypeUat(Date paymentTypeUat) {
+    public void setPaymentTypeUat(Timestamp paymentTypeUat) {
         this.paymentTypeUat = paymentTypeUat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentType that = (PaymentType) o;
+        return idPaymentType == that.idPaymentType &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(paymentTypeName, that.paymentTypeName) &&
+                Objects.equals(paymentTypeCat, that.paymentTypeCat) &&
+                Objects.equals(paymentTypeUat, that.paymentTypeUat);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idPaymentType, paymentTypeName, isDeleted, paymentTypeCat, paymentTypeUat);
+    }
 }

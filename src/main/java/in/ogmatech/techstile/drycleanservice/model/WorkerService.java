@@ -1,38 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "worker_service")
-@EntityListeners(AuditingEntityListener.class)
-public class WorkerService implements Serializable {
-
-    private Long idWorkerService;
+@Table(name = "worker_service", schema = "techstile", catalog = "")
+public class WorkerService {
+    private Integer idWorkerService;
     private Byte isDeleted;
-    private Date workerServiceCat;
-    private Date userServiceUat;
-
-    private Long userId;
-    private Long serviceIndividualId;
+    private Timestamp workerServiceCat;
+    private Timestamp workerServiceUat;
+    private User userByUserId;
+    private Service serviceByServiceId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_worker_service", nullable = false)
-    public Long getIdWorkerService() {
+    public Integer getIdWorkerService() {
         return idWorkerService;
     }
 
-    public void setIdWorkerService(Long idWorkerService) {
+    public void setIdWorkerService(Integer idWorkerService) {
         this.idWorkerService = idWorkerService;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -42,45 +34,60 @@ public class WorkerService implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "worker_service_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getWorkerServiceCat() {
+    @Basic
+    @Column(name = "worker_service_cat", nullable = true)
+    public Timestamp getWorkerServiceCat() {
         return workerServiceCat;
     }
 
-    public void setWorkerServiceCat(Date workerServiceCat) {
+    public void setWorkerServiceCat(Timestamp workerServiceCat) {
         this.workerServiceCat = workerServiceCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "worker_service_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getUserServiceUat() {
-        return userServiceUat;
+    public Timestamp getWorkerServiceUat() {
+        return workerServiceUat;
     }
 
-    public void setUserServiceUat(Date userServiceUat) {
-        this.userServiceUat = userServiceUat;
+    public void setWorkerServiceUat(Timestamp workerServiceUat) {
+        this.workerServiceUat = workerServiceUat;
     }
 
-    @Column(name = "user_id", nullable = false)
-    public Long getUserId() {
-        return userId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WorkerService that = (WorkerService) o;
+        return idWorkerService == that.idWorkerService &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(workerServiceCat, that.workerServiceCat) &&
+                Objects.equals(workerServiceUat, that.workerServiceUat);
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idWorkerService, isDeleted, workerServiceCat, workerServiceUat);
     }
 
-    @Column(name = "service_individual_id", nullable = false)
-    public Long getServiceIndividualId() {
-        return serviceIndividualId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user", nullable = false)
+    public User getUserByUserId() {
+        return userByUserId;
     }
 
-    public void setServiceIndividualId(Long serviceIndividualId) {
-        this.serviceIndividualId = serviceIndividualId;
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "service_id", referencedColumnName = "id_service", nullable = false)
+    public Service getServiceByServiceId() {
+        return serviceByServiceId;
+    }
+
+    public void setServiceByServiceId(Service serviceByServiceId) {
+        this.serviceByServiceId = serviceByServiceId;
     }
 }

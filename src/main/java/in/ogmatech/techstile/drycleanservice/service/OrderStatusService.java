@@ -10,13 +10,13 @@ public interface OrderStatusService {
 
     OrderStatus save(OrderStatus orderStatus);
 
-    OrderStatus findById(Long idOrderStatus);
+    OrderStatus findById(Integer idOrderStatus);
 
     List<OrderStatus> findAll();
 
-    OrderStatus update(Long idOrderStatus, OrderStatus orderStatus);
+    OrderStatus update(Integer idOrderStatus, OrderStatus orderStatus);
 
-    void delete(Long idOrderStatus);
+    void delete(Integer idOrderStatus);
 
     void deleteAll();
 }

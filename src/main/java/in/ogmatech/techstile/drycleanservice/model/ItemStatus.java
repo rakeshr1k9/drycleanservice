@@ -1,39 +1,31 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_status")
-@EntityListeners(AuditingEntityListener.class)
-public class ItemStatus implements Serializable {
-
-    private Long idItemStatus;
+@Table(name = "item_status", schema = "techstile", catalog = "")
+public class ItemStatus {
+    private Integer idItemStatus;
     private String itemStatusName;
     private Byte isDeleted;
-    private Date itemStatusCat;
-    private Date itemStatusUat;
+    private Timestamp itemStatusCat;
+    private Timestamp itemStatusUat;
+    private Integer itemStatusOrder;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_status", nullable = false)
-    public Long getIdItemStatus() {
+    public Integer getIdItemStatus() {
         return idItemStatus;
     }
 
-    public void setIdItemStatus(Long idItemStatus) {
+    public void setIdItemStatus(Integer idItemStatus) {
         this.idItemStatus = idItemStatus;
     }
 
-    @Column(name = "item_status_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "item_status_name", nullable = true, length = 20)
     public String getItemStatusName() {
         return itemStatusName;
     }
@@ -42,6 +34,7 @@ public class ItemStatus implements Serializable {
         this.itemStatusName = itemStatusName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -51,28 +44,52 @@ public class ItemStatus implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_status_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemStatusCat() {
+    @Basic
+    @Column(name = "item_status_cat", nullable = true)
+    public Timestamp getItemStatusCat() {
         return itemStatusCat;
     }
 
-    public void setItemStatusCat(Date itemStatusCat) {
+    public void setItemStatusCat(Timestamp itemStatusCat) {
         this.itemStatusCat = itemStatusCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_status_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemStatusUat() {
+    public Timestamp getItemStatusUat() {
         return itemStatusUat;
     }
 
-    public void setItemStatusUat(Date itemStatusUat) {
+    public void setItemStatusUat(Timestamp itemStatusUat) {
         this.itemStatusUat = itemStatusUat;
     }
 
+    @Basic
+    @Column(name = "item_status_order", nullable = true)
+    public Integer getItemStatusOrder() {
+        return itemStatusOrder;
+    }
+
+    public void setItemStatusOrder(Integer itemStatusOrder) {
+        this.itemStatusOrder = itemStatusOrder;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemStatus that = (ItemStatus) o;
+        return idItemStatus == that.idItemStatus &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(itemStatusName, that.itemStatusName) &&
+                Objects.equals(itemStatusCat, that.itemStatusCat) &&
+                Objects.equals(itemStatusUat, that.itemStatusUat) &&
+                Objects.equals(itemStatusOrder, that.itemStatusOrder);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemStatus, itemStatusName, isDeleted, itemStatusCat, itemStatusUat, itemStatusOrder);
+    }
 }

@@ -1,39 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "dyeing_color")
-@EntityListeners(AuditingEntityListener.class)
-public class DyeingColor implements Serializable {
-
-    private Long idDyeingColor;
+@Table(name = "dyeing_color", schema = "techstile", catalog = "")
+public class DyeingColor {
+    private Integer idDyeingColor;
     private Integer dyeingColorNumber;
     private String dyeingColorName;
     private Byte isDeleted;
-    private Date dyeingColorCat;
-    private Date dyeingColorUat;
+    private Timestamp dyeingColorCat;
+    private Timestamp dyeingColorUat;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_dyeing_color", nullable = false)
-    public Long getIdDyeingColor() {
+    public Integer getIdDyeingColor() {
         return idDyeingColor;
     }
 
-    public void setIdDyeingColor(Long idDyeingColor) {
+    public void setIdDyeingColor(Integer idDyeingColor) {
         this.idDyeingColor = idDyeingColor;
     }
 
+    @Basic
     @Column(name = "dyeing_color_number", nullable = true)
     public Integer getDyeingColorNumber() {
         return dyeingColorNumber;
@@ -43,7 +34,8 @@ public class DyeingColor implements Serializable {
         this.dyeingColorNumber = dyeingColorNumber;
     }
 
-    @Column(name = "dyeing_color_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "dyeing_color_name", nullable = true, length = 20)
     public String getDyeingColorName() {
         return dyeingColorName;
     }
@@ -52,6 +44,7 @@ public class DyeingColor implements Serializable {
         this.dyeingColorName = dyeingColorName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -61,28 +54,42 @@ public class DyeingColor implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "dyeing_color_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getDyeingColorCat() {
+    @Basic
+    @Column(name = "dyeing_color_cat", nullable = true)
+    public Timestamp getDyeingColorCat() {
         return dyeingColorCat;
     }
 
-    public void setDyeingColorCat(Date dyeingColorCat) {
+    public void setDyeingColorCat(Timestamp dyeingColorCat) {
         this.dyeingColorCat = dyeingColorCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "dyeing_color_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getDyeingColorUat() {
+    public Timestamp getDyeingColorUat() {
         return dyeingColorUat;
     }
 
-    public void setDyeingColorUat(Date dyeingColorUat) {
+    public void setDyeingColorUat(Timestamp dyeingColorUat) {
         this.dyeingColorUat = dyeingColorUat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DyeingColor that = (DyeingColor) o;
+        return idDyeingColor == that.idDyeingColor &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(dyeingColorNumber, that.dyeingColorNumber) &&
+                Objects.equals(dyeingColorName, that.dyeingColorName) &&
+                Objects.equals(dyeingColorCat, that.dyeingColorCat) &&
+                Objects.equals(dyeingColorUat, that.dyeingColorUat);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idDyeingColor, dyeingColorNumber, dyeingColorName, isDeleted, dyeingColorCat, dyeingColorUat);
+    }
 }

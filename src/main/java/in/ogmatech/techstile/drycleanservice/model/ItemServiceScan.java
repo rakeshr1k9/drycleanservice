@@ -1,49 +1,40 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_service_scan")
-@EntityListeners(AuditingEntityListener.class)
-public class ItemServiceScan implements Serializable {
-
-    private Long idItemServiceScan;
-    private Date itemServiceScanTime;
+@Table(name = "item_service_scan", schema = "techstile", catalog = "")
+public class ItemServiceScan {
+    private Integer idItemServiceScan;
+    private Timestamp itemServiceScanTime;
     private Byte isDeleted;
-    private Date itemServiceScanCat;
-    private Date itemServiceScanUat;
-
-    private Long itemId;
-    private Long serviceIndividualId;
-    private Long userId;
+    private Timestamp itemServiceScanCat;
+    private Timestamp itemServiceScanUat;
+    private Item itemByItemId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_service_scan", nullable = false)
-    public Long getIdItemServiceScan() {
+    public Integer getIdItemServiceScan() {
         return idItemServiceScan;
     }
 
-    public void setIdItemServiceScan(Long idItemServiceScan) {
+    public void setIdItemServiceScan(Integer idItemServiceScan) {
         this.idItemServiceScan = idItemServiceScan;
     }
 
+    @Basic
     @Column(name = "item_service_scan_time", nullable = true)
-    public Date getItemServiceScanTime() {
+    public Timestamp getItemServiceScanTime() {
         return itemServiceScanTime;
     }
 
-    public void setItemServiceScanTime(Date itemServiceScanTime) {
+    public void setItemServiceScanTime(Timestamp itemServiceScanTime) {
         this.itemServiceScanTime = itemServiceScanTime;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -53,54 +44,51 @@ public class ItemServiceScan implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_service_scan_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemServiceScanCat() {
+    @Basic
+    @Column(name = "item_service_scan_cat", nullable = true)
+    public Timestamp getItemServiceScanCat() {
         return itemServiceScanCat;
     }
 
-    public void setItemServiceScanCat(Date itemServiceScanCat) {
+    public void setItemServiceScanCat(Timestamp itemServiceScanCat) {
         this.itemServiceScanCat = itemServiceScanCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_service_scan_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemServiceScanUat() {
+    public Timestamp getItemServiceScanUat() {
         return itemServiceScanUat;
     }
 
-    public void setItemServiceScanUat(Date itemServiceScanUat) {
+    public void setItemServiceScanUat(Timestamp itemServiceScanUat) {
         this.itemServiceScanUat = itemServiceScanUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemServiceScan that = (ItemServiceScan) o;
+        return idItemServiceScan == that.idItemServiceScan &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(itemServiceScanTime, that.itemServiceScanTime) &&
+                Objects.equals(itemServiceScanCat, that.itemServiceScanCat) &&
+                Objects.equals(itemServiceScanUat, that.itemServiceScanUat);
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemServiceScan, itemServiceScanTime, isDeleted, itemServiceScanCat, itemServiceScanUat);
     }
 
-    @Column(name = "service_individual_id", nullable = false)
-    public Long getServiceIndividualId() {
-        return serviceIndividualId;
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item", nullable = false)
+    public Item getItemByItemId() {
+        return itemByItemId;
     }
 
-    public void setServiceIndividualId(Long serviceIndividualId) {
-        this.serviceIndividualId = serviceIndividualId;
-    }
-
-    @Column(name = "user_id", nullable = false)
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setItemByItemId(Item itemByItemId) {
+        this.itemByItemId = itemByItemId;
     }
 }

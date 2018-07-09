@@ -1,9 +1,6 @@
 package in.ogmatech.techstile.drycleanservice.service;
 
-import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
 import in.ogmatech.techstile.drycleanservice.model.Customer;
-import in.ogmatech.techstile.drycleanservice.model.Customer;
-import in.ogmatech.techstile.drycleanservice.repository.CustomerRepository;
 import in.ogmatech.techstile.drycleanservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Validated
 @Transactional
-public class CustomerServiceBean implements CustomerService{
+public class CustomerServiceBean implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
@@ -34,8 +32,8 @@ public class CustomerServiceBean implements CustomerService{
     }
 
     @Override
-    public Customer findById(Long idCustomer) {
-        return customerRepository.findOne(idCustomer);
+    public Customer findById(Integer idCustomer) {
+         return customerRepository.findById(idCustomer).orElse(null);
     }
 
     @Override
@@ -44,9 +42,9 @@ public class CustomerServiceBean implements CustomerService{
     }
 
     @Override
-    public Customer update(Long idCustomer, Customer customer) {
+    public Customer update(Integer idCustomer, Customer customer) {
 
-        Customer currentCustomer = customerRepository.findOne(idCustomer);
+        Customer currentCustomer = customerRepository.findById(idCustomer).orElse(null);
 
        /* currentCustomer.setCustomername(customer.getCustomername());
         currentCustomer.setPassword(customer.getPassword());
@@ -56,12 +54,15 @@ public class CustomerServiceBean implements CustomerService{
         currentCustomer.setCustomerDeviceIdentity(customer.getCustomerDeviceIdentity());*/
        /* if (!entityManager.contains(customer))
             customer = entityManager.merge(customer);*/
-        return customerRepository.save(currentCustomer);
+       if(currentCustomer != null){
+           return customerRepository.save(currentCustomer);
+       }
+       return null;
     }
 
     @Override
-    public void delete(Long idCustomer) {
-        customerRepository.delete(idCustomer);
+    public void delete(Integer idCustomer) {
+        customerRepository.deleteById(idCustomer);
     }
 
     @Override

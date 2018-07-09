@@ -1,39 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_category")
-@EntityListeners(AuditingEntityListener.class)
-public class ItemCategory implements Serializable {
-
-    private Long idItemCategory;
+@Table(name = "item_category", schema = "techstile", catalog = "")
+public class ItemCategory {
+    private Integer idItemCategory;
     private String itemCategoryName;
     private Byte isDeleted;
-    private Date itemCategoryCat;
-    private Date itemCategoryUat;
+    private Timestamp itemCategoryCat;
+    private Timestamp itemCategoryUat;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_category", nullable = false)
-    public Long getIdItemCategory() {
+    public Integer getIdItemCategory() {
         return idItemCategory;
     }
 
-    public void setIdItemCategory(Long idItemCategory) {
+    public void setIdItemCategory(Integer idItemCategory) {
         this.idItemCategory = idItemCategory;
     }
 
-    @Column(name = "item_category_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "item_category_name", nullable = true, length = 20)
     public String getItemCategoryName() {
         return itemCategoryName;
     }
@@ -42,6 +33,7 @@ public class ItemCategory implements Serializable {
         this.itemCategoryName = itemCategoryName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -51,28 +43,41 @@ public class ItemCategory implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_category_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemCategoryCat() {
+    @Basic
+    @Column(name = "item_category_cat", nullable = true)
+    public Timestamp getItemCategoryCat() {
         return itemCategoryCat;
     }
 
-    public void setItemCategoryCat(Date itemCategoryCat) {
+    public void setItemCategoryCat(Timestamp itemCategoryCat) {
         this.itemCategoryCat = itemCategoryCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_category_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemCategoryUat() {
+    public Timestamp getItemCategoryUat() {
         return itemCategoryUat;
     }
 
-    public void setItemCategoryUat(Date itemCategoryUat) {
+    public void setItemCategoryUat(Timestamp itemCategoryUat) {
         this.itemCategoryUat = itemCategoryUat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemCategory that = (ItemCategory) o;
+        return idItemCategory == that.idItemCategory &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(itemCategoryName, that.itemCategoryName) &&
+                Objects.equals(itemCategoryCat, that.itemCategoryCat) &&
+                Objects.equals(itemCategoryUat, that.itemCategoryUat);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemCategory, itemCategoryName, isDeleted, itemCategoryCat, itemCategoryUat);
+    }
 }

@@ -1,38 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_dyeing_color")
-@EntityListeners(AuditingEntityListener.class)
-public class ItemDyeingColor implements Serializable {
-
-    private Long idItemDyeingColor;
+@Table(name = "item_dyeing_color", schema = "techstile", catalog = "")
+public class ItemDyeingColor {
+    private Integer idItemDyeingColor;
     private Byte isDeleted;
-    private Date itemDyeingColorCat;
-    private Date itemDyeingColorUat;
-
-    private Long itemId;
-    private Long dyeingColorId;
+    private Timestamp itemDyeingColorCat;
+    private Timestamp itemDyeingColorUat;
+    private Item itemByItemId;
+    private DyeingColor dyeingColorByDyeingColorId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_dyeing_color", nullable = false)
-    public Long getIdItemDyeingColor() {
+    public Integer getIdItemDyeingColor() {
         return idItemDyeingColor;
     }
 
-    public void setIdItemDyeingColor(Long idItemDyeingColor) {
+    public void setIdItemDyeingColor(Integer idItemDyeingColor) {
         this.idItemDyeingColor = idItemDyeingColor;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -42,45 +34,60 @@ public class ItemDyeingColor implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_dyeing_color_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemDyeingColorCat() {
+    @Basic
+    @Column(name = "item_dyeing_color_cat", nullable = true)
+    public Timestamp getItemDyeingColorCat() {
         return itemDyeingColorCat;
     }
 
-    public void setItemDyeingColorCat(Date itemDyeingColorCat) {
+    public void setItemDyeingColorCat(Timestamp itemDyeingColorCat) {
         this.itemDyeingColorCat = itemDyeingColorCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_dyeing_color_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemDyeingColorUat() {
+    public Timestamp getItemDyeingColorUat() {
         return itemDyeingColorUat;
     }
 
-    public void setItemDyeingColorUat(Date itemDyeingColorUat) {
+    public void setItemDyeingColorUat(Timestamp itemDyeingColorUat) {
         this.itemDyeingColorUat = itemDyeingColorUat;
     }
 
-    @Column(name = "item_id", nullable = false)
-    public Long getItemId() {
-        return itemId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemDyeingColor that = (ItemDyeingColor) o;
+        return idItemDyeingColor == that.idItemDyeingColor &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(itemDyeingColorCat, that.itemDyeingColorCat) &&
+                Objects.equals(itemDyeingColorUat, that.itemDyeingColorUat);
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemDyeingColor, isDeleted, itemDyeingColorCat, itemDyeingColorUat);
     }
 
-    @Column(name = "dyeing_color_id", nullable = false)
-    public Long getDyeingColorId() {
-        return dyeingColorId;
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id_item", nullable = false)
+    public Item getItemByItemId() {
+        return itemByItemId;
     }
 
-    public void setDyeingColorId(Long dyeingColorId) {
-        this.dyeingColorId = dyeingColorId;
+    public void setItemByItemId(Item itemByItemId) {
+        this.itemByItemId = itemByItemId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "dyeing_color_id", referencedColumnName = "id_dyeing_color", nullable = false)
+    public DyeingColor getDyeingColorByDyeingColorId() {
+        return dyeingColorByDyeingColorId;
+    }
+
+    public void setDyeingColorByDyeingColorId(DyeingColor dyeingColorByDyeingColorId) {
+        this.dyeingColorByDyeingColorId = dyeingColorByDyeingColorId;
     }
 }

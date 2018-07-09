@@ -1,40 +1,32 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "role")
-@EntityListeners(AuditingEntityListener.class)
-public class Role implements Serializable {
-
-    private Long idRole;
+public class Role {
+    private Integer idRole;
     private String roleName;
     private Byte isDeleted;
-    private Date roleCat;
-    private Date roleUat;
+    private Timestamp roleCat;
+    private Timestamp roleUat;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_role", nullable = false)
-    public Long getIdRole() {
+    public Integer getIdRole() {
         return idRole;
     }
 
-    public void setIdRole(Long idRole) {
+    public void setIdRole(Integer idRole) {
         this.idRole = idRole;
     }
 
-    @Column(name = "role_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "role_name", nullable = true, length = 20)
     public String getRoleName() {
         return roleName;
     }
@@ -43,6 +35,7 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -52,28 +45,41 @@ public class Role implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "role_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getRoleCat() {
+    @Basic
+    @Column(name = "role_cat", nullable = true)
+    public Timestamp getRoleCat() {
         return roleCat;
     }
 
-    public void setRoleCat(Date roleCat) {
+    public void setRoleCat(Timestamp roleCat) {
         this.roleCat = roleCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "role_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getRoleUat() {
+    public Timestamp getRoleUat() {
         return roleUat;
     }
 
-    public void setRoleUat(Date roleUat) {
+    public void setRoleUat(Timestamp roleUat) {
         this.roleUat = roleUat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return idRole == role.idRole &&
+                isDeleted == role.isDeleted &&
+                Objects.equals(roleName, role.roleName) &&
+                Objects.equals(roleCat, role.roleCat) &&
+                Objects.equals(roleUat, role.roleUat);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idRole, roleName, isDeleted, roleCat, roleUat);
+    }
 }

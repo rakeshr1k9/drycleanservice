@@ -1,43 +1,32 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_type")
-@EntityListeners(AuditingEntityListener.class)
-public class ItemType implements Serializable {
-
-    private Long idItemType;
+@Table(name = "item_type", schema = "techstile", catalog = "")
+public class ItemType {
+    private Integer idItemType;
     private String itemTypeName;
     private String itemTypeImageLink;
     private Byte isDeleted;
-    private Date itemTypeCat;
-    private Date itemTypeUat;
-
-    private Long itemCategoryId;
+    private Timestamp itemTypeCat;
+    private Timestamp itemTypeUat;
+    private ItemCategory itemCategoryByItemCategoryId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_type", nullable = false)
-    public Long getIdItemType() {
+    public Integer getIdItemType() {
         return idItemType;
     }
 
-    public void setIdItemType(Long idItemType) {
+    public void setIdItemType(Integer idItemType) {
         this.idItemType = idItemType;
     }
 
-    @Column(name = "item_type_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "item_type_name", nullable = true, length = 20)
     public String getItemTypeName() {
         return itemTypeName;
     }
@@ -46,6 +35,7 @@ public class ItemType implements Serializable {
         this.itemTypeName = itemTypeName;
     }
 
+    @Basic
     @Column(name = "item_type_image_link", nullable = true, length = 45)
     public String getItemTypeImageLink() {
         return itemTypeImageLink;
@@ -55,6 +45,7 @@ public class ItemType implements Serializable {
         this.itemTypeImageLink = itemTypeImageLink;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -64,36 +55,52 @@ public class ItemType implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_type_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemTypeCat() {
+    @Basic
+    @Column(name = "item_type_cat", nullable = true)
+    public Timestamp getItemTypeCat() {
         return itemTypeCat;
     }
 
-    public void setItemTypeCat(Date itemTypeCat) {
+    public void setItemTypeCat(Timestamp itemTypeCat) {
         this.itemTypeCat = itemTypeCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_type_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemTypeUat() {
+    public Timestamp getItemTypeUat() {
         return itemTypeUat;
     }
 
-    public void setItemTypeUat(Date itemTypeUat) {
+    public void setItemTypeUat(Timestamp itemTypeUat) {
         this.itemTypeUat = itemTypeUat;
     }
 
-    @Column(name = "item_category_id", nullable = false)
-    public Long getItemCategoryId() {
-        return itemCategoryId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemType itemType = (ItemType) o;
+        return idItemType == itemType.idItemType &&
+                isDeleted == itemType.isDeleted &&
+                Objects.equals(itemTypeName, itemType.itemTypeName) &&
+                Objects.equals(itemTypeImageLink, itemType.itemTypeImageLink) &&
+                Objects.equals(itemTypeCat, itemType.itemTypeCat) &&
+                Objects.equals(itemTypeUat, itemType.itemTypeUat);
     }
 
-    public void setItemCategoryId(Long itemCategoryId) {
-        this.itemCategoryId = itemCategoryId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemType, itemTypeName, itemTypeImageLink, isDeleted, itemTypeCat, itemTypeUat);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "item_category_id", referencedColumnName = "id_item_category", nullable = false)
+    public ItemCategory getItemCategoryByItemCategoryId() {
+        return itemCategoryByItemCategoryId;
+    }
+
+    public void setItemCategoryByItemCategoryId(ItemCategory itemCategoryByItemCategoryId) {
+        this.itemCategoryByItemCategoryId = itemCategoryByItemCategoryId;
     }
 }

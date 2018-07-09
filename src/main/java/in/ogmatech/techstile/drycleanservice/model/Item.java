@@ -1,56 +1,44 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.hateoas.ResourceSupport;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item")
-@EntityListeners(AuditingEntityListener.class)
-public class Item extends ResourceSupport implements Serializable {
-
-    private Long idItem;
-    private String itemQrCode;
+public class Item {
+    private Integer idItem;
+    private Integer itemQrNumber;
     private Integer itemTotalAmount;
-    private Date itemShouldDeliverAt;
-    private Date itemDeliveredAt;
+    private Timestamp itemShouldDeliverAt;
+    private Timestamp itemDeliveredAt;
     private Byte isQuickDelivery;
     private Byte isDeleted;
-    private Date itemCat;
-    private Date itemUat;
-
-    private Long orderId;
-    private Long itemTypeId;
-    private Long itemStatusId;
+    private Timestamp itemCat;
+    private Timestamp itemUat;
+    private String itemUpdatedByUser;
+    private Branch branchByBranchId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item", nullable = false)
-    public Long getIdItem() {
+    public Integer getIdItem() {
         return idItem;
     }
 
-    public void setIdItem(Long idItem) {
+    public void setIdItem(Integer idItem) {
         this.idItem = idItem;
     }
 
-    @Column(name = "item_qr_code", nullable = true, length = 45)
-    public String getItemQrCode() {
-        return itemQrCode;
+    @Basic
+    @Column(name = "item_qr_number", nullable = true)
+    public Integer getItemQrNumber() {
+        return itemQrNumber;
     }
 
-    public void setItemQrCode(String itemQrCode) {
-        this.itemQrCode = itemQrCode;
+    public void setItemQrNumber(Integer itemQrNumber) {
+        this.itemQrNumber = itemQrNumber;
     }
 
+    @Basic
     @Column(name = "item_total_amount", nullable = true)
     public Integer getItemTotalAmount() {
         return itemTotalAmount;
@@ -60,24 +48,27 @@ public class Item extends ResourceSupport implements Serializable {
         this.itemTotalAmount = itemTotalAmount;
     }
 
+    @Basic
     @Column(name = "item_should_deliver_at", nullable = true)
-    public Date getItemShouldDeliverAt() {
+    public Timestamp getItemShouldDeliverAt() {
         return itemShouldDeliverAt;
     }
 
-    public void setItemShouldDeliverAt(Date itemShouldDeliverAt) {
+    public void setItemShouldDeliverAt(Timestamp itemShouldDeliverAt) {
         this.itemShouldDeliverAt = itemShouldDeliverAt;
     }
 
+    @Basic
     @Column(name = "item_delivered_at", nullable = true)
-    public Date getItemDeliveredAt() {
+    public Timestamp getItemDeliveredAt() {
         return itemDeliveredAt;
     }
 
-    public void setItemDeliveredAt(Date itemDeliveredAt) {
+    public void setItemDeliveredAt(Timestamp itemDeliveredAt) {
         this.itemDeliveredAt = itemDeliveredAt;
     }
 
+    @Basic
     @Column(name = "is_quick_delivery", nullable = true)
     public Byte getIsQuickDelivery() {
         return isQuickDelivery;
@@ -87,6 +78,7 @@ public class Item extends ResourceSupport implements Serializable {
         this.isQuickDelivery = isQuickDelivery;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -96,55 +88,66 @@ public class Item extends ResourceSupport implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemCat() {
+    @Basic
+    @Column(name = "item_cat", nullable = true)
+    public Timestamp getItemCat() {
         return itemCat;
     }
 
-    public void setItemCat(Date itemCat) {
+    public void setItemCat(Timestamp itemCat) {
         this.itemCat = itemCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemUat() {
+    public Timestamp getItemUat() {
         return itemUat;
     }
 
-    public void setItemUat(Date itemUat) {
+    public void setItemUat(Timestamp itemUat) {
         this.itemUat = itemUat;
     }
 
-    @Column(name = "order_id", nullable = false)
-    public Long getOrderId() {
-        return orderId;
+    @Basic
+    @Column(name = "item_updated_by_user", nullable = true, length = 45)
+    public String getItemUpdatedByUser() {
+        return itemUpdatedByUser;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setItemUpdatedByUser(String itemUpdatedByUser) {
+        this.itemUpdatedByUser = itemUpdatedByUser;
     }
 
-    @Column(name = "item_type_id", nullable = false)
-    public Long getItemTypeId() {
-        return itemTypeId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return idItem == item.idItem &&
+                isDeleted == item.isDeleted &&
+                Objects.equals(itemQrNumber, item.itemQrNumber) &&
+                Objects.equals(itemTotalAmount, item.itemTotalAmount) &&
+                Objects.equals(itemShouldDeliverAt, item.itemShouldDeliverAt) &&
+                Objects.equals(itemDeliveredAt, item.itemDeliveredAt) &&
+                Objects.equals(isQuickDelivery, item.isQuickDelivery) &&
+                Objects.equals(itemCat, item.itemCat) &&
+                Objects.equals(itemUat, item.itemUat) &&
+                Objects.equals(itemUpdatedByUser, item.itemUpdatedByUser);
     }
 
-    public void setItemTypeId(Long itemTypeId) {
-        this.itemTypeId = itemTypeId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItem, itemQrNumber, itemTotalAmount, itemShouldDeliverAt, itemDeliveredAt, isQuickDelivery, isDeleted, itemCat, itemUat, itemUpdatedByUser);
     }
 
-    @Column(name = "item_status_id", nullable = false)
-    public Long getItemStatusId() {
-        return itemStatusId;
+    @ManyToOne
+    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch", nullable = false)
+    public Branch getBranchByBranchId() {
+        return branchByBranchId;
     }
 
-    public void setItemStatusId(Long itemStatusId) {
-        this.itemStatusId = itemStatusId;
+    public void setBranchByBranchId(Branch branchByBranchId) {
+        this.branchByBranchId = branchByBranchId;
     }
-
 }

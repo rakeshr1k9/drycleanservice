@@ -1,47 +1,40 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_type_service_price")
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "item_type_service_price", schema = "techstile", catalog = "")
 public class ItemTypeServicePrice {
-
-    private Long idItemTypeServicePrice;
-    private String itemTypeServicePrice;
+    private Integer idItemTypeServicePrice;
+    private Integer itemTypeServiceAmount;
     private Byte isDeleted;
-    private Date itemTypeServicePriceCat;
-    private Date itemTypeServicePriceUat;
-
-    private Long itemTypeId;
-    private Long serviceTypeId;
+    private Timestamp itemTypeServicePriceCat;
+    private Timestamp itemTypeServicePriceUat;
+    private ItemType itemTypeByItemTypeId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_item_type_service_price", nullable = false)
-    public Long getIdItemTypeServicePrice() {
+    public Integer getIdItemTypeServicePrice() {
         return idItemTypeServicePrice;
     }
 
-    public void setIdItemTypeServicePrice(Long idItemTypeServicePrice) {
+    public void setIdItemTypeServicePrice(Integer idItemTypeServicePrice) {
         this.idItemTypeServicePrice = idItemTypeServicePrice;
     }
 
-    @Column(name = "item_type_service_price", nullable = true, length = 45)
-    public String getItemTypeServicePrice() {
-        return itemTypeServicePrice;
+    @Basic
+    @Column(name = "item_type_service_amount", nullable = true)
+    public Integer getItemTypeServiceAmount() {
+        return itemTypeServiceAmount;
     }
 
-    public void setItemTypeServicePrice(String itemTypeServicePrice) {
-        this.itemTypeServicePrice = itemTypeServicePrice;
+    public void setItemTypeServiceAmount(Integer itemTypeServiceAmount) {
+        this.itemTypeServiceAmount = itemTypeServiceAmount;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -51,45 +44,51 @@ public class ItemTypeServicePrice {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "item_type_service_price_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getItemTypeServicePriceCat() {
+    @Basic
+    @Column(name = "item_type_service_price_cat", nullable = true)
+    public Timestamp getItemTypeServicePriceCat() {
         return itemTypeServicePriceCat;
     }
 
-    public void setItemTypeServicePriceCat(Date itemTypeServicePriceCat) {
+    public void setItemTypeServicePriceCat(Timestamp itemTypeServicePriceCat) {
         this.itemTypeServicePriceCat = itemTypeServicePriceCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "item_type_service_price_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getItemTypeServicePriceUat() {
+    public Timestamp getItemTypeServicePriceUat() {
         return itemTypeServicePriceUat;
     }
 
-    public void setItemTypeServicePriceUat(Date itemTypeServicePriceUat) {
+    public void setItemTypeServicePriceUat(Timestamp itemTypeServicePriceUat) {
         this.itemTypeServicePriceUat = itemTypeServicePriceUat;
     }
 
-    @Column(name = "item_type_id", nullable = false)
-    public Long getItemTypeId() {
-        return itemTypeId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemTypeServicePrice that = (ItemTypeServicePrice) o;
+        return idItemTypeServicePrice == that.idItemTypeServicePrice &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(itemTypeServiceAmount, that.itemTypeServiceAmount) &&
+                Objects.equals(itemTypeServicePriceCat, that.itemTypeServicePriceCat) &&
+                Objects.equals(itemTypeServicePriceUat, that.itemTypeServicePriceUat);
     }
 
-    public void setItemTypeId(Long itemTypeId) {
-        this.itemTypeId = itemTypeId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idItemTypeServicePrice, itemTypeServiceAmount, isDeleted, itemTypeServicePriceCat, itemTypeServicePriceUat);
     }
 
-    @Column(name = "service_type_id", nullable = false)
-    public Long getServiceTypeId() {
-        return serviceTypeId;
+    @ManyToOne
+    @JoinColumn(name = "item_type_id", referencedColumnName = "id_item_type", nullable = false)
+    public ItemType getItemTypeByItemTypeId() {
+        return itemTypeByItemTypeId;
     }
 
-    public void setServiceTypeId(Long serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+    public void setItemTypeByItemTypeId(ItemType itemTypeByItemTypeId) {
+        this.itemTypeByItemTypeId = itemTypeByItemTypeId;
     }
 }

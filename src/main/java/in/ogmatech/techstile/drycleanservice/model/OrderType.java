@@ -1,40 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "order_type")
-@EntityListeners(AuditingEntityListener.class)
-public class OrderType implements Serializable {
-
-    private Long idOrderType;
+@Table(name = "order_type", schema = "techstile", catalog = "")
+public class OrderType {
+    private Integer idOrderType;
     private String orderTypeName;
     private Byte isDeleted;
-    private Date orderTypeCat;
-    private Date orderTypeUat;
-    
+    private Timestamp orderTypeCat;
+    private Timestamp orderTypeUat;
+
     @Id
-    @GeneratedValue
     @Column(name = "id_order_type", nullable = false)
-    public Long getIdOrderType() {
+    public Integer getIdOrderType() {
         return idOrderType;
     }
 
-    public void setIdOrderType(Long idOrderType) {
+    public void setIdOrderType(Integer idOrderType) {
         this.idOrderType = idOrderType;
     }
 
-    @Column(name = "order_type_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "order_type_name", nullable = true, length = 20)
     public String getOrderTypeName() {
         return orderTypeName;
     }
@@ -43,6 +33,7 @@ public class OrderType implements Serializable {
         this.orderTypeName = orderTypeName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -52,28 +43,41 @@ public class OrderType implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "order_type_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getOrderTypeCat() {
+    @Basic
+    @Column(name = "order_type_cat", nullable = true)
+    public Timestamp getOrderTypeCat() {
         return orderTypeCat;
     }
 
-    public void setOrderTypeCat(Date orderTypeCat) {
+    public void setOrderTypeCat(Timestamp orderTypeCat) {
         this.orderTypeCat = orderTypeCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "order_type_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getOrderTypeUat() {
+    public Timestamp getOrderTypeUat() {
         return orderTypeUat;
     }
 
-    public void setOrderTypeUat(Date orderTypeUat) {
+    public void setOrderTypeUat(Timestamp orderTypeUat) {
         this.orderTypeUat = orderTypeUat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderType orderType = (OrderType) o;
+        return idOrderType == orderType.idOrderType &&
+                isDeleted == orderType.isDeleted &&
+                Objects.equals(orderTypeName, orderType.orderTypeName) &&
+                Objects.equals(orderTypeCat, orderType.orderTypeCat) &&
+                Objects.equals(orderTypeUat, orderType.orderTypeUat);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idOrderType, orderTypeName, isDeleted, orderTypeCat, orderTypeUat);
+    }
 }

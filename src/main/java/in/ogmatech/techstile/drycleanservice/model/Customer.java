@@ -1,44 +1,34 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.hateoas.ResourceSupport;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "customer")
-@EntityListeners(AuditingEntityListener.class)
-public class Customer extends ResourceSupport implements Serializable {
-
-    private Long idCustomer;
+public class Customer {
+    private Integer idCustomer;
     private Long customerMobile;
     private String customerName;
     private Byte isDeleted;
-    private Date customerCat;
-    private Date customerUat;
-
-    private Long customerTypeId;
+    private Timestamp customerCat;
+    private Timestamp customerUat;
+    private String customerAddress;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_customer", nullable = false)
-    public Long getIdCustomer() {
+    public Integer getIdCustomer() {
         return idCustomer;
     }
 
-    public void setIdCustomer(Long idCustomer) {
+    public void setIdCustomer(Integer idCustomer) {
         this.idCustomer = idCustomer;
     }
 
-    @Column(name = "customer_mobile", nullable = true, precision = 0)
+    @Basic
+    @Column(name = "customer_mobile", nullable = true)
     public Long getCustomerMobile() {
         return customerMobile;
     }
@@ -47,6 +37,7 @@ public class Customer extends ResourceSupport implements Serializable {
         this.customerMobile = customerMobile;
     }
 
+    @Basic
     @Column(name = "customer_name", nullable = true, length = 45)
     public String getCustomerName() {
         return customerName;
@@ -56,6 +47,7 @@ public class Customer extends ResourceSupport implements Serializable {
         this.customerName = customerName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -65,36 +57,53 @@ public class Customer extends ResourceSupport implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "customer_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getCustomerCat() {
+    @Basic
+    @Column(name = "customer_cat", nullable = true)
+    public Timestamp getCustomerCat() {
         return customerCat;
     }
 
-    public void setCustomerCat(Date customerCat) {
+    public void setCustomerCat(Timestamp customerCat) {
         this.customerCat = customerCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "customer_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getCustomerUat() {
+    public Timestamp getCustomerUat() {
         return customerUat;
     }
 
-    public void setCustomerUat(Date customerUat) {
+    public void setCustomerUat(Timestamp customerUat) {
         this.customerUat = customerUat;
     }
 
-    @Column(name = "customer_type_id", nullable = false)
-    public Long getCustomerTypeId() {
-        return customerTypeId;
+    @Basic
+    @Column(name = "customer_address", nullable = true, length = 60)
+    public String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public void setCustomerTypeId(Long customerTypeId) {
-        this.customerTypeId = customerTypeId;
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return idCustomer == customer.idCustomer &&
+                isDeleted == customer.isDeleted &&
+                Objects.equals(customerMobile, customer.customerMobile) &&
+                Objects.equals(customerName, customer.customerName) &&
+                Objects.equals(customerCat, customer.customerCat) &&
+                Objects.equals(customerUat, customer.customerUat) &&
+                Objects.equals(customerAddress, customer.customerAddress);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idCustomer, customerMobile, customerName, isDeleted, customerCat, customerUat, customerAddress);
     }
 }

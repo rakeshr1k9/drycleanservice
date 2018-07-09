@@ -3,6 +3,7 @@ package in.ogmatech.techstile.drycleanservice.service;
 import in.ogmatech.techstile.drycleanservice.model.Customer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
 
@@ -10,13 +11,13 @@ public interface CustomerService {
 
     Customer save(Customer customer);
 
-    Customer findById(Long idCustomer);
+    Customer findById(Integer idCustomer);
 
     List<Customer> findAll();
 
-    Customer update(Long idCustomer, Customer customer);
+    Customer update(Integer idCustomer, Customer customer);
 
-    void delete(Long idCustomer);
+    void delete(Integer idCustomer);
 
     void deleteAll();
 }

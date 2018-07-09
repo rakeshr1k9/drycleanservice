@@ -4,7 +4,6 @@ import in.ogmatech.techstile.drycleanservice.exception.AlreadyExistsException;
 import in.ogmatech.techstile.drycleanservice.model.OrderStatus;
 import in.ogmatech.techstile.drycleanservice.service.OrderStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +38,7 @@ public class OrderStatusController {
 
     /* Reading single orderStatus */
     @GetMapping(value = "orderStatuses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderStatus> getOrderStatus(@PathVariable("id") long idOrderStatus) {
+    public ResponseEntity<OrderStatus> getOrderStatus(@PathVariable("id") Integer idOrderStatus) {
 
         OrderStatus orderStatus = orderStatusService.findById(idOrderStatus);
 
@@ -51,7 +50,7 @@ public class OrderStatusController {
     }
 
     /*Reads all orderStatuses*/
-    @GetMapping(value = "orderStatuses",produces = MediaTypes.HAL_JSON_VALUE)
+    @GetMapping(value = "orderStatuses",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OrderStatus>> listAllOrderStatuses() {
 
         List<OrderStatus> orderStatus = orderStatusService.findAll();
@@ -65,7 +64,7 @@ public class OrderStatusController {
 
     /*Update a orderStatus*/
     @PutMapping("orderStatuses/{id}")
-    public ResponseEntity<OrderStatus> updateOrderStatusFromDB(@PathVariable("id") Long idOrderStatus, @RequestBody OrderStatus orderStatus) {
+    public ResponseEntity<OrderStatus> updateOrderStatusFromDB(@PathVariable("id") Integer idOrderStatus, @RequestBody OrderStatus orderStatus) {
 
         OrderStatus currentOrderStatus = orderStatusService.findById(idOrderStatus);
 
@@ -82,7 +81,7 @@ public class OrderStatusController {
 
     /*Delete a orderStatus */
     @DeleteMapping("orderStatuses/{id}")
-    public ResponseEntity<OrderStatus> deleteOrderStatusFromDB(@PathVariable("id") long idOrderStatus) {
+    public ResponseEntity<OrderStatus> deleteOrderStatusFromDB(@PathVariable("id") Integer idOrderStatus) {
 
         OrderStatus orderStatus = orderStatusService.findById(idOrderStatus);
 

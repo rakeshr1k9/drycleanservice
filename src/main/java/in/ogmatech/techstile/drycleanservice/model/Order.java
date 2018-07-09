@@ -1,51 +1,49 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "`order`")
 @EntityListeners(AuditingEntityListener.class)
-public class Order extends ResourceSupport implements Serializable {
-
-    private Long idOrder;
+public class Order implements Serializable {
+    private Integer idOrder;
     private Integer orderTotalAmount;
-    private Date orderRecievedAt;
+    private Date orderReceivedAt;
     private Date orderShouldDeliverAt;
     private Date orderDeliveredAt;
-    private String orderBagNumber;
-    private Byte isQuickDeivery;
+    private Byte isQuickDelivery;
     private Byte isDeleted;
     private Date orderCat;
     private Date orderUat;
+    private String customerName;
+    private Long customerMobile;
+    private Integer orderTotalItem;
+    private Integer orderTotalItemCompleted;
+    private String customerTypeName;
+    private Integer orderNumber;
+    private String orderReceivedByUser;
+    private String orderUpdatedByUser;
+    private String orderDeliveredByUser;
+    private Integer branchId;
+    private Integer orderStatusId;
+    private String orderStatusName;
 
-    private Long customerId;
-    private Long branchId;
-    private Long orderStatusId;
-    private Long orderTypeId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_order", nullable = false)
-    public Long getIdOrder() {
+    public Integer getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(Long idOrder) {
+    public void setIdOrder(Integer idOrder) {
         this.idOrder = idOrder;
     }
 
+    @Basic
     @Column(name = "order_total_amount", nullable = true)
     public Integer getOrderTotalAmount() {
         return orderTotalAmount;
@@ -55,15 +53,17 @@ public class Order extends ResourceSupport implements Serializable {
         this.orderTotalAmount = orderTotalAmount;
     }
 
-    @Column(name = "order_recieved_at", nullable = true)
-    public Date getOrderRecievedAt() {
-        return orderRecievedAt;
+    @Basic
+    @Column(name = "order_received_at", nullable = true)
+    public Date getOrderReceivedAt() {
+        return orderReceivedAt;
     }
 
-    public void setOrderRecievedAt(Date orderRecievedAt) {
-        this.orderRecievedAt = orderRecievedAt;
+    public void setOrderReceivedAt(Date orderReceivedAt) {
+        this.orderReceivedAt = orderReceivedAt;
     }
 
+    @Basic
     @Column(name = "order_should_deliver_at", nullable = true)
     public Date getOrderShouldDeliverAt() {
         return orderShouldDeliverAt;
@@ -73,6 +73,7 @@ public class Order extends ResourceSupport implements Serializable {
         this.orderShouldDeliverAt = orderShouldDeliverAt;
     }
 
+    @Basic
     @Column(name = "order_delivered_at", nullable = true)
     public Date getOrderDeliveredAt() {
         return orderDeliveredAt;
@@ -82,24 +83,17 @@ public class Order extends ResourceSupport implements Serializable {
         this.orderDeliveredAt = orderDeliveredAt;
     }
 
-    @Column(name = "order_bag_number", nullable = true, length = 45)
-    public String getOrderBagNumber() {
-        return orderBagNumber;
-    }
-
-    public void setOrderBagNumber(String orderBagNumber) {
-        this.orderBagNumber = orderBagNumber;
-    }
-
+    @Basic
     @Column(name = "is_quick_delivery", nullable = false)
-    public Byte getIsQuickDeivery() {
-        return isQuickDeivery;
+    public Byte getIsQuickDelivery() {
+        return isQuickDelivery;
     }
 
-    public void setIsQuickDeivery(Byte isQuickDeivery) {
-        this.isQuickDeivery = isQuickDeivery;
+    public void setIsQuickDelivery(Byte isQuickDelivery) {
+        this.isQuickDelivery = isQuickDelivery;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -109,10 +103,8 @@ public class Order extends ResourceSupport implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "order_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
+    @Basic
+    @Column(name = "order_cat", nullable = true)
     public Date getOrderCat() {
         return orderCat;
     }
@@ -121,10 +113,8 @@ public class Order extends ResourceSupport implements Serializable {
         this.orderCat = orderCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "order_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
     public Date getOrderUat() {
         return orderUat;
     }
@@ -133,40 +123,120 @@ public class Order extends ResourceSupport implements Serializable {
         this.orderUat = orderUat;
     }
 
-    @Column(name = "customer_id", nullable = false)
-    public Long getCustomerId() {
-        return customerId;
+    @Basic
+    @Column(name = "customer_name", nullable = true, length = 45)
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    @Basic
+    @Column(name = "customer_mobile", nullable = true)
+    public Long getCustomerMobile() {
+        return customerMobile;
+    }
+
+    public void setCustomerMobile(Long customerMobile) {
+        this.customerMobile = customerMobile;
+    }
+
+    @Basic
+    @Column(name = "order_total_item", nullable = true)
+    public Integer getOrderTotalItem() {
+        return orderTotalItem;
+    }
+
+    public void setOrderTotalItem(Integer orderTotalItem) {
+        this.orderTotalItem = orderTotalItem;
+    }
+
+    @Basic
+    @Column(name = "order_total_item_completed", nullable = true)
+    public Integer getOrderTotalItemCompleted() {
+        return orderTotalItemCompleted;
+    }
+
+    public void setOrderTotalItemCompleted(Integer orderTotalItemCompleted) {
+        this.orderTotalItemCompleted = orderTotalItemCompleted;
+    }
+
+    @Basic
+    @Column(name = "customer_type_name", nullable = true, length = 20)
+    public String getCustomerTypeName() {
+        return customerTypeName;
+    }
+
+    public void setCustomerTypeName(String customerTypeName) {
+        this.customerTypeName = customerTypeName;
+    }
+
+    @Basic
+    @Column(name = "order_number", nullable = true)
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    @Basic
+    @Column(name = "order_received_by_user", nullable = true, length = 45)
+    public String getOrderReceivedByUser() {
+        return orderReceivedByUser;
+    }
+
+    public void setOrderReceivedByUser(String orderReceivedByUser) {
+        this.orderReceivedByUser = orderReceivedByUser;
+    }
+
+    @Basic
+    @Column(name = "order_updated_by_user", nullable = true, length = 45)
+    public String getOrderUpdatedByUser() {
+        return orderUpdatedByUser;
+    }
+
+    public void setOrderUpdatedByUser(String orderUpdatedByUser) {
+        this.orderUpdatedByUser = orderUpdatedByUser;
+    }
+
+    @Basic
+    @Column(name = "order_delivered_by_user", nullable = true, length = 45)
+    public String getOrderDeliveredByUser() {
+        return orderDeliveredByUser;
+    }
+
+    public void setOrderDeliveredByUser(String orderDeliveredByUser) {
+        this.orderDeliveredByUser = orderDeliveredByUser;
     }
 
     @Column(name = "branch_id", nullable = false)
-    public Long getBranchId() {
+    public Integer getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(Long branchId) {
+    public void setBranchId(Integer branchId) {
         this.branchId = branchId;
     }
 
     @Column(name = "order_status_id", nullable = false)
-    public Long getOrderStatusId() {
+    public Integer getOrderStatusId() {
         return orderStatusId;
     }
 
-    public void setOrderStatusId(Long orderStatusId) {
+    public void setOrderStatusId(Integer orderStatusId) {
         this.orderStatusId = orderStatusId;
     }
 
-    @Column(name = "order_type_id", nullable = false)
-    public Long getOrderTypeId() {
-        return orderTypeId;
+    @Column(name = "order_status_name", nullable = true, length = 20)
+    public String getOrderStatusName() {
+        return orderStatusName;
     }
 
-    public void setOrderTypeId(Long orderTypeId) {
-        this.orderTypeId = orderTypeId;
+    public void setOrderStatusName(String orderStatusName) {
+        this.orderStatusName = orderStatusName;
     }
-
 }

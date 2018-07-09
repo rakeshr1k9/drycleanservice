@@ -1,40 +1,32 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "order_status")
-@EntityListeners(AuditingEntityListener.class)
-public class OrderStatus implements Serializable {
-
-    private Long idOrderStatus;
+@Table(name = "order_status", schema = "techstile", catalog = "")
+public class OrderStatus {
+    private Integer idOrderStatus;
     private String orderStatusName;
     private Byte isDeleted;
-    private Date orderStatusCat;
-    private Date orderStatusUat;
+    private Timestamp orderStatusCat;
+    private Timestamp orderStatusUat;
     private Integer orderStatusOrder;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_order_status", nullable = false)
-    public Long getIdOrderStatus() {
+    public Integer getIdOrderStatus() {
         return idOrderStatus;
     }
 
-    public void setIdOrderStatus(Long idOrderStatus) {
+    public void setIdOrderStatus(Integer idOrderStatus) {
         this.idOrderStatus = idOrderStatus;
     }
 
-    @Column(name = "order_status_name", nullable = true, length = 45)
+    @Basic
+    @Column(name = "order_status_name", nullable = true, length = 20)
     public String getOrderStatusName() {
         return orderStatusName;
     }
@@ -43,6 +35,7 @@ public class OrderStatus implements Serializable {
         this.orderStatusName = orderStatusName;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -52,30 +45,27 @@ public class OrderStatus implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "order_status_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getOrderStatusCat() {
+    @Basic
+    @Column(name = "order_status_cat", nullable = true)
+    public Timestamp getOrderStatusCat() {
         return orderStatusCat;
     }
 
-    public void setOrderStatusCat(Date orderStatusCat) {
+    public void setOrderStatusCat(Timestamp orderStatusCat) {
         this.orderStatusCat = orderStatusCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "order_status_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getOrderStatusUat() {
+    public Timestamp getOrderStatusUat() {
         return orderStatusUat;
     }
 
-    public void setOrderStatusUat(Date orderStatusUat) {
+    public void setOrderStatusUat(Timestamp orderStatusUat) {
         this.orderStatusUat = orderStatusUat;
     }
 
+    @Basic
     @Column(name = "order_status_order", nullable = true)
     public Integer getOrderStatusOrder() {
         return orderStatusOrder;
@@ -85,4 +75,22 @@ public class OrderStatus implements Serializable {
         this.orderStatusOrder = orderStatusOrder;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderStatus that = (OrderStatus) o;
+        return idOrderStatus == that.idOrderStatus &&
+                isDeleted == that.isDeleted &&
+                Objects.equals(orderStatusName, that.orderStatusName) &&
+                Objects.equals(orderStatusCat, that.orderStatusCat) &&
+                Objects.equals(orderStatusUat, that.orderStatusUat) &&
+                Objects.equals(orderStatusOrder, that.orderStatusOrder);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idOrderStatus, orderStatusName, isDeleted, orderStatusCat, orderStatusUat, orderStatusOrder);
+    }
 }

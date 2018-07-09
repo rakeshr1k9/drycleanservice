@@ -1,39 +1,30 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Objects;
 
 @Entity
-@Table(name = "user_role")
-@EntityListeners(AuditingEntityListener.class)
-public class UserRole implements Serializable {
-
-    private Long idUserRole;
+@Table(name = "user_role", schema = "techstile", catalog = "")
+public class UserRole {
+    private Integer idUserRole;
     private Byte isDeleted;
-    private Date userRoleCat;
-    private Date userRoleUat;
-
-    private Long userId;
-    private Long roleId;
+    private Timestamp userRoleCat;
+    private Timestamp userRoleUat;
+    private User userByUserId;
+    private Role roleByRoleId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_user_role", nullable = false)
-    public Long getIdUserRole() {
+    public Integer getIdUserRole() {
         return idUserRole;
     }
 
-    public void setIdUserRole(Long idUserRole) {
+    public void setIdUserRole(Integer idUserRole) {
         this.idUserRole = idUserRole;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -43,45 +34,60 @@ public class UserRole implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "user_role_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getUserRoleCat() {
+    @Basic
+    @Column(name = "user_role_cat", nullable = true)
+    public Timestamp getUserRoleCat() {
         return userRoleCat;
     }
 
-    public void setUserRoleCat(Date userRoleCat) {
+    public void setUserRoleCat(Timestamp userRoleCat) {
         this.userRoleCat = userRoleCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "user_role_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getUserRoleUat() {
+    public Timestamp getUserRoleUat() {
         return userRoleUat;
     }
 
-    public void setUserRoleUat(Date userRoleUat) {
+    public void setUserRoleUat(Timestamp userRoleUat) {
         this.userRoleUat = userRoleUat;
     }
 
-    @Column(name = "user_id", nullable = false)
-    public Long getUserId() {
-        return userId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRole userRole = (UserRole) o;
+        return idUserRole == userRole.idUserRole &&
+                isDeleted == userRole.isDeleted &&
+                Objects.equals(userRoleCat, userRole.userRoleCat) &&
+                Objects.equals(userRoleUat, userRole.userRoleUat);
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idUserRole, isDeleted, userRoleCat, userRoleUat);
     }
 
-    @Column(name = "role_id", nullable = false)
-    public Long getRoleId() {
-        return roleId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user", nullable = false)
+    public User getUserByUserId() {
+        return userByUserId;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id_role", nullable = false)
+    public Role getRoleByRoleId() {
+        return roleByRoleId;
+    }
+
+    public void setRoleByRoleId(Role roleByRoleId) {
+        this.roleByRoleId = roleByRoleId;
     }
 }

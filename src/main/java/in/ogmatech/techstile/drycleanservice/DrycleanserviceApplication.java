@@ -11,6 +11,4 @@ public class DrycleanserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DrycleanserviceApplication.class, args);
 	}
-
-	//new branch
 }

@@ -10,13 +10,22 @@ public interface OrderService {
 
     Order save(Order order);
 
-    Order findById(Long idOrder);
+    Order findById(Integer idOrder);
 
     List<Order> findAll();
 
-    Order update(Long idOrder, Order order);
+    Order update(Integer idOrder, Order order);
 
-    void delete(Long idOrder);
+    void delete(Integer idOrder);
 
     void deleteAll();
+
+    List<Order> listAllOrders(Byte isDeleted, Integer branchId, List<Integer> orderStatusId);
+
+    List<Order> listQuickOrders(Byte isQuickDelivery, Byte isDeleted, Integer branchId, List<Integer> orderStatusId);
+
+    List<Order> listOrdersByPhone(Byte isDeleted, Integer branchId, Long customerMobile);
+
+    List<Order> listOrdersByOrderNo(Byte isDeleted, Integer branchId, Integer orderNumber);
+
 }

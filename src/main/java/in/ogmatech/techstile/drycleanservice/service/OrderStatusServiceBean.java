@@ -28,8 +28,8 @@ public class OrderStatusServiceBean implements OrderStatusService {
     }
 
     @Override
-    public OrderStatus findById(Long idOrderStatus) {
-        return orderStatusRepository.findOne(idOrderStatus);
+    public OrderStatus findById(Integer idOrderStatus) {
+        return orderStatusRepository.findById(idOrderStatus).orElse(null);
     }
 
     @Override
@@ -38,9 +38,9 @@ public class OrderStatusServiceBean implements OrderStatusService {
     }
 
     @Override
-    public OrderStatus update(Long idOrderStatus, OrderStatus orderStatus) {
+    public OrderStatus update(Integer idOrderStatus, OrderStatus orderStatus) {
 
-        OrderStatus currentOrderStatus = orderStatusRepository.findOne(idOrderStatus);
+        OrderStatus currentOrderStatus = orderStatusRepository.findById(idOrderStatus).orElse(null);
 
        /* currentOrderStatus.setOrderStatusname(orderStatus.getOrderStatusname());
         currentOrderStatus.setPassword(orderStatus.getPassword());
@@ -53,8 +53,8 @@ public class OrderStatusServiceBean implements OrderStatusService {
     }
 
     @Override
-    public void delete(Long idOrderStatus) {
-        orderStatusRepository.delete(idOrderStatus);
+    public void delete(Integer idOrderStatus) {
+        orderStatusRepository.deleteById(idOrderStatus);
     }
 
     @Override

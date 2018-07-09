@@ -1,45 +1,32 @@
 package in.ogmatech.techstile.drycleanservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.LazyCollection;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.hateoas.ResourceSupport;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-@EntityListeners(AuditingEntityListener.class)
-public class User extends ResourceSupport implements Serializable {
-
-    private Long idUser;
+public class User {
+    private Integer idUser;
     private String username;
     private String password;
     private Long userMobile;
     private Byte isDeleted;
-    private Date userCat;
-    private Date userUat;
+    private Timestamp userCat;
+    private Timestamp userUat;
     private String userDeviceIdentity;
-
-    private Long branchId;
+    private Branch branchByBranchId;
 
     @Id
-    @GeneratedValue
     @Column(name = "id_user", nullable = false)
-    public Long getIdUser() {
+    public Integer getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Long idUser) {
+    public void setIdUser(Integer idUser) {
         this.idUser = idUser;
     }
-    
+
+    @Basic
     @Column(name = "username", nullable = false, length = 45)
     public String getUsername() {
         return username;
@@ -49,7 +36,8 @@ public class User extends ResourceSupport implements Serializable {
         this.username = username;
     }
 
-    @Column(name = "password", nullable = true, length = 45)
+    @Basic
+    @Column(name = "password", nullable = true, length = 60)
     public String getPassword() {
         return password;
     }
@@ -58,7 +46,8 @@ public class User extends ResourceSupport implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "user_mobile", nullable = true, precision = 0)
+    @Basic
+    @Column(name = "user_mobile", nullable = true)
     public Long getUserMobile() {
         return userMobile;
     }
@@ -67,6 +56,7 @@ public class User extends ResourceSupport implements Serializable {
         this.userMobile = userMobile;
     }
 
+    @Basic
     @Column(name = "is_deleted", nullable = false)
     public Byte getIsDeleted() {
         return isDeleted;
@@ -76,31 +66,28 @@ public class User extends ResourceSupport implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
-    @Column(name = "user_cat", nullable = true, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    public Date getUserCat() {
+    @Basic
+    @Column(name = "user_cat", nullable = true)
+    public Timestamp getUserCat() {
         return userCat;
     }
 
-    public void setUserCat(Date userCat) {
+    public void setUserCat(Timestamp userCat) {
         this.userCat = userCat;
     }
 
-    @JsonIgnoreProperties(allowGetters = true)
+    @Basic
     @Column(name = "user_uat", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    public Date getUserUat() {
+    public Timestamp getUserUat() {
         return userUat;
     }
 
-    public void setUserUat(Date userUat) {
+    public void setUserUat(Timestamp userUat) {
         this.userUat = userUat;
     }
 
-    @Column(name = "user_device_identity", nullable = true, length = 45)
+    @Basic
+    @Column(name = "user_device_identity", nullable = true, length = 20)
     public String getUserDeviceIdentity() {
         return userDeviceIdentity;
     }
@@ -109,12 +96,34 @@ public class User extends ResourceSupport implements Serializable {
         this.userDeviceIdentity = userDeviceIdentity;
     }
 
-    @Column(name = "branch_id", nullable = false)
-    public Long getBranchId() {
-        return branchId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return idUser == user.idUser &&
+                isDeleted == user.isDeleted &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(userMobile, user.userMobile) &&
+                Objects.equals(userCat, user.userCat) &&
+                Objects.equals(userUat, user.userUat) &&
+                Objects.equals(userDeviceIdentity, user.userDeviceIdentity);
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idUser, username, password, userMobile, isDeleted, userCat, userUat, userDeviceIdentity);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id", referencedColumnName = "id_branch")
+    public Branch getBranchByBranchId() {
+        return branchByBranchId;
+    }
+
+    public void setBranchByBranchId(Branch branchByBranchId) {
+        this.branchByBranchId = branchByBranchId;
     }
 }
